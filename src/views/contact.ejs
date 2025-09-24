@@ -1,42 +1,59 @@
 <%-
+  // Include the base layout template and pass the "body" content into it
   include('layout', {
     body: `
-<section class="py-5">
-  <div class="container">
-    <div class="row g-4">
+<section class="py-5"> <!-- Contact section with vertical padding -->
+  <div class="container"> <!-- Bootstrap container -->
+    <div class="row g-4"> <!-- Grid row with gutter spacing -->
+
+      <!-- Left column: Contact form -->
       <div class="col-12 col-lg-6">
-        <h1 class="h2 fw-bold mb-3">Contact Us</h1>
+        <h1 class="h2 fw-bold mb-3">Contact Us</h1> <!-- Page heading -->
         <p class="text-muted">Have a question or want to collaborate? We'd love to hear from you.</p>
+        
+        <!-- Card container for the form -->
         <div class="card shadow-sm">
           <div class="card-body">
+            <!-- Contact form -->
             <form method="POST" action="/contact" novalidate>
+              <!-- Name field -->
               <div class="mb-3">
                 <label class="form-label">Name</label>
                 <input name="name" type="text" class="form-control" required />
               </div>
+              <!-- Email field -->
               <div class="mb-3">
                 <label class="form-label">Email</label>
                 <input name="email" type="email" class="form-control" required />
               </div>
+              <!-- Message field -->
               <div class="mb-3">
                 <label class="form-label">Message</label>
                 <textarea name="message" rows="5" class="form-control" required></textarea>
               </div>
-              <button class="btn btn-primary" type="submit"><i class="fa-regular fa-paper-plane me-1"></i> Send</button>
+              <!-- Submit button with icon -->
+              <button class="btn btn-primary" type="submit">
+                <i class="fa-regular fa-paper-plane me-1"></i> Send
+              </button>
             </form>
           </div>
         </div>
       </div>
+
+      <!-- Right column: Office details -->
       <div class="col-12 col-lg-6">
         <div class="p-4 bg-white rounded shadow-sm h-100 d-flex flex-column justify-content-center">
           <h2 class="h4">Our Office</h2>
+          <!-- Address -->
           <p class="text-muted mb-1">123 Event St, Suite 456</p>
           <p class="text-muted">San Francisco, CA</p>
           <hr />
+          <!-- Email info -->
           <h3 class="h5">Email</h3>
           <p class="text-muted mb-0">support@eventsphere.io</p>
         </div>
       </div>
+
     </div>
   </div>
 </section>
