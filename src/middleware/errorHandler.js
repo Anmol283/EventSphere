@@ -1,9 +1,9 @@
-<<<<<<< HEAD
+
 //errorHandler.js
-=======
+
 // Global error handling middleware for Express
 // This function will catch any errors passed to 'next(err)' in the app.
->>>>>>> 7d3e8a7b5da3e2457670f25397ac0358c3210d0b
+
 export default function errorHandler(err, req, res, next) {
   // Log the error details to the server console (useful for debugging during development)
   console.error("Error:", err)
