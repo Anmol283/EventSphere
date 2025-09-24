@@ -1,67 +1,63 @@
-// Import required modules
 import jwt from "jsonwebtoken"
 import User from "../models/User.js"
 
-// Name of the cookie where JWT will be stored
 const JWT_COOKIE = "token"
 
-// Function to create (sign) a JWT with a 1-day expiration
+// Create a signed JWT with a 1-day expiration
 export function signJwt(payload) {
-  const secret = process.env.JWT_SECRET || "devjwt" // Use env secret or fallback
-  return jwt.sign(payload, secret, { expiresIn: "1d" }) // Create token
+  const secret = process.env.JWT_SECRET || "devjwt"
+  return jwt.sign(payload, secret, { expiresIn: "1d" })
 }
 
-// Function to verify a JWT and return decoded payload
+// Validate and decode a JWT using the same secret
 export function verifyJwt(token) {
   const secret = process.env.JWT_SECRET || "devjwt"
-  return jwt.verify(token, secret) // Throws error if invalid/expired
+  return jwt.verify(token, secret)
 }
 
-// Middleware: Attach currently logged-in user to req/res if token is valid
+// Middleware: if a valid token cookie exists, load the user into req.user and res.locals.user
 export async function attachCurrentUser(req, res, next) {
-  res.locals.user = null // Default = no user
+  res.locals.user = null
   try {
-    const token = req.cookies[JWT_COOKIE] // Read JWT from cookie
-    if (!token) return next() // If no token, move on
-    const decoded = verifyJwt(token) // Decode token
-    const user = await User.findById(decoded.id).select("-password").lean() 
-    // Find user by ID from token, exclude password, return plain object
-
+    const token = req.cookies[JWT_COOKIE]
+    if (!token) return next()
+    const decoded = verifyJwt(token)
+    const user = await User.findById(decoded.id).select("-password").lean()
     if (user) {
-      res.locals.user = user // Makes user available in views
-      req.user = user        // Makes user available in routes
+      res.locals.user = user
+      req.user = user
     }
     return next()
   } catch (err) {
-    res.clearCookie(JWT_COOKIE) // If token invalid/expired, clear cookie
+    res.clearCookie(JWT_COOKIE)
     return next()
   }
 }
 
-// Middleware: Restrict access to authenticated users only
+// Middleware: ensure the request is from an authenticated user
 export function requireAuth(req, res, next) {
   if (!req.user) {
-    req.flash("error", "Please log in to access the dashboard.") // Flash error
-    return res.redirect("/login") // Redirect to login page
+    req.flash("error", "Please log in to access the dashboard.")
+    return res.redirect("/login")
   }
   return next()
 }
 
-// Middleware: Restrict access to admin users only
+// Middleware: ensure the current user has the admin role
 export function requireAdmin(req, res, next) {
   if (!req.user || req.user.role !== "admin") {
     req.flash("error", "You do not have permission to access this page.")
-    return res.redirect("/") // Redirect non-admins to homepage
+    return res.redirect("/")
   }
   return next()
 }
 
-// Helper: Set JWT as an HTTP-only cookie in response
+// Helper: send the JWT as a secure cookie to the client
 export function setJwtCookie(res, token) {
   res.cookie("token", token, {
-    httpOnly: true, // JS on frontend cannot access cookie
-    sameSite: "lax", // Protect against CSRF
-    secure: process.env.NODE_ENV === "production", // HTTPS only in production
-    maxAge: 1000 * 60 * 60 * 24, // Expire after 1 day
+    httpOnly: true,
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
+    maxAge: 1000 * 60 * 60 * 24,
   })
 }
