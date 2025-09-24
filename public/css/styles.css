@@ -1,46 +1,62 @@
 :root {
-  --primary: #0ea5e9; /* sky-500 */
-  --primary-dark: #0284c7; /* sky-600 */
-  --bg-body: #f7f7fb;
+  /* Theme color variables for consistent styling across the site */
+  --primary: #0ea5e9;      /* Main primary color (Tailwind sky-500) */
+  --primary-dark: #0284c7; /* Darker shade for hover states (Tailwind sky-600) */
+  --bg-body: #f7f7fb;      /* Light background color for the body */
 }
 
 * {
+  /* Apply border-box sizing to all elements for easier layout calculations */
   box-sizing: border-box;
 }
 
 body {
+  /* Use a modern, system-friendly font stack and set background color */
   font-family:
     "Inter", system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
   background: var(--bg-body);
 }
 
 .bg-primary {
+  /* Utility class for elements with primary background color */
   background-color: var(--primary) !important;
 }
+
 .btn-primary {
+  /* Primary button default styles */
   background-color: var(--primary) !important;
   border-color: var(--primary);
 }
+
 .btn-primary:hover {
+  /* Primary button hover state with darker color */
   background-color: var(--primary-dark) !important;
   border-color: var(--primary-dark);
 }
+
 .link-primary {
+  /* Utility class for links styled with primary color */
   color: var(--primary) !important;
 }
+
 .text-primary {
+  /* Utility class for text styled with primary color */
   color: var(--primary) !important;
 }
 
 .card-hover {
+  /* Base styles for cards with smooth hover effect */
   transition: transform .2s ease, box-shadow .2s ease;
 }
+
 .card-hover:hover {
+  /* Lift card slightly and add shadow on hover */
   transform: translateY(-2px);
   box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.08) !important;
 }
 
 .clamp-3 {
+  /* Limit text display to 3 lines with ellipsis overflow */
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
@@ -48,22 +64,28 @@ body {
 }
 
 .hero-image {
+  /* Responsive hero image with max width and proper object fit */
   width: 520px;
   max-width: 100%;
   object-fit: cover;
 }
 
 .hover-rise {
+  /* Smooth upward movement effect on hover */
   transition: transform .15s ease;
 }
+
 .hover-rise:hover {
+  /* Apply upward movement on hover */
   transform: translateY(-2px);
 }
 
 .bg-primary-subtle {
+  /* Light, subtle background variant of primary color */
   background-color: rgba(14, 165, 233, 0.12) !important;
 }
 
 footer .text-muted:hover {
+  /* Footer muted text changes to primary color on hover */
   color: var(--primary) !important;
 }

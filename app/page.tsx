@@ -3,7 +3,9 @@ import { Navbar } from "@/components/navbar"
 import { EventCard, type EventItem } from "@/components/event-card"
 import { Button } from "@/components/ui/button"
 
+// Home page component for the Event Sphere app
 export default function HomePage() {
+  // Sample featured events data (could be fetched from an API in a real app)
   const featuredEvents: EventItem[] = [
     {
       id: "1",
@@ -33,10 +35,11 @@ export default function HomePage() {
 
   return (
     <>
+      {/* Site navigation bar */}
       <Navbar />
 
       <main>
-        {/* Hero */}
+        {/* Hero section with tagline and call-to-action buttons */}
         <section className="mx-auto max-w-6xl px-4 py-16 md:py-20">
           <div className="max-w-3xl space-y-6">
             <h1 className="text-pretty text-4xl font-semibold tracking-tight sm:text-5xl">
@@ -47,6 +50,7 @@ export default function HomePage() {
               attendees, and grow their audience.
             </p>
 
+            {/* Buttons to explore events or learn more */}
             <div className="flex flex-wrap items-center gap-3">
               <Button asChild>
                 <Link href="#events" aria-label="Explore events">
@@ -62,7 +66,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Featured Events */}
+        {/* Featured events section displaying sample events */}
         <section id="events" aria-labelledby="featured-heading" className="border-t">
           <div className="mx-auto max-w-6xl px-4 py-12 md:py-16">
             <div className="mb-6 flex items-end justify-between">
@@ -72,6 +76,7 @@ export default function HomePage() {
                 </h2>
                 <p className="mt-1 text-sm text-muted-foreground">Hand-picked experiences happening soon.</p>
               </div>
+              {/* Link to browse all events */}
               <Link
                 href="#"
                 className="text-sm text-muted-foreground hover:text-foreground transition-colors"
@@ -81,6 +86,7 @@ export default function HomePage() {
               </Link>
             </div>
 
+            {/* Grid layout for event cards */}
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {featuredEvents.map((evt) => (
                 <EventCard key={evt.id} event={evt} />
@@ -89,7 +95,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* About */}
+        {/* About section explaining platform benefits */}
         <section id="about" className="border-t">
           <div className="mx-auto max-w-6xl px-4 py-12 md:py-16">
             <div className="grid gap-8 md:grid-cols-2 md:items-center">
@@ -101,6 +107,7 @@ export default function HomePage() {
                   <li>Fast, accessible experience on any device</li>
                 </ul>
               </div>
+              {/* Highlight organizer features with a call-to-action button */}
               <div className="rounded-lg border bg-card p-6">
                 <p className="text-sm leading-relaxed text-muted-foreground">
                   Ready to host your next event? Event Sphere gives you a streamlined flow to publish your event, set
@@ -118,7 +125,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Contact */}
+        {/* Contact section with email link */}
         <section id="contact" className="border-t">
           <div className="mx-auto max-w-6xl px-4 py-12 md:py-16">
             <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">Get in touch</h2>
@@ -136,6 +143,7 @@ export default function HomePage() {
         </section>
       </main>
 
+      {/* Footer with current year and site name */}
       <footer className="border-t">
         <div className="mx-auto max-w-6xl px-4 py-8 text-center text-sm text-muted-foreground">
           © {new Date().getFullYear()} Event Sphere. All rights reserved.
