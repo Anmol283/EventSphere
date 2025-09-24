@@ -1,103 +1,146 @@
-import Image from "next/image";
+import Link from "next/link"
+import { Navbar } from "@/components/navbar"
+import { EventCard, type EventItem } from "@/components/event-card"
+import { Button } from "@/components/ui/button"
 
-export default function Home() {
+export default function HomePage() {
+  const featuredEvents: EventItem[] = [
+    {
+      id: "1",
+      title: "Tech Innovators Summit",
+      date: "Nov 12, 2025 · 9:00 AM",
+      location: "San Francisco, CA",
+      href: "#",
+      imageQuery: "technology conference keynote stage",
+    },
+    {
+      id: "2",
+      title: "City Jazz Nights",
+      date: "Oct 30, 2025 · 8:00 PM",
+      location: "New Orleans, LA",
+      href: "#",
+      imageQuery: "jazz concert saxophone on stage",
+    },
+    {
+      id: "3",
+      title: "Outdoor Food Fest",
+      date: "Dec 5, 2025 · 12:00 PM",
+      location: "Austin, TX",
+      href: "#",
+      imageQuery: "food festival stalls outdoors daytime",
+    },
+  ]
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <>
+      <Navbar />
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
+      <main>
+        {/* Hero */}
+        <section className="mx-auto max-w-6xl px-4 py-16 md:py-20">
+          <div className="max-w-3xl space-y-6">
+            <h1 className="text-pretty text-4xl font-semibold tracking-tight sm:text-5xl">
+              Discover. Host. Experience. All your events in one place.
+            </h1>
+            <p className="text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
+              Event Sphere helps you find unforgettable events and gives organizers the tools to sell tickets, manage
+              attendees, and grow their audience.
+            </p>
+
+            <div className="flex flex-wrap items-center gap-3">
+              <Button asChild>
+                <Link href="#events" aria-label="Explore events">
+                  Explore events
+                </Link>
+              </Button>
+              <Button asChild variant="secondary">
+                <Link href="#about" aria-label="Learn about Event Sphere">
+                  Learn more
+                </Link>
+              </Button>
+            </div>
+          </div>
+        </section>
+
+        {/* Featured Events */}
+        <section id="events" aria-labelledby="featured-heading" className="border-t">
+          <div className="mx-auto max-w-6xl px-4 py-12 md:py-16">
+            <div className="mb-6 flex items-end justify-between">
+              <div>
+                <h2 id="featured-heading" className="text-balance text-2xl font-semibold tracking-tight md:text-3xl">
+                  Featured events
+                </h2>
+                <p className="mt-1 text-sm text-muted-foreground">Hand-picked experiences happening soon.</p>
+              </div>
+              <Link
+                href="#"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                aria-label="Browse all events"
+              >
+                Browse all
+              </Link>
+            </div>
+
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {featuredEvents.map((evt) => (
+                <EventCard key={evt.id} event={evt} />
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* About */}
+        <section id="about" className="border-t">
+          <div className="mx-auto max-w-6xl px-4 py-12 md:py-16">
+            <div className="grid gap-8 md:grid-cols-2 md:items-center">
+              <div className="space-y-4">
+                <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">Why Event Sphere?</h2>
+                <ul className="list-inside list-disc space-y-2 text-sm text-muted-foreground md:text-base">
+                  <li>Effortless discovery with curated listings and filters</li>
+                  <li>Organizer-first tools: ticketing, guest lists, analytics</li>
+                  <li>Fast, accessible experience on any device</li>
+                </ul>
+              </div>
+              <div className="rounded-lg border bg-card p-6">
+                <p className="text-sm leading-relaxed text-muted-foreground">
+                  Ready to host your next event? Event Sphere gives you a streamlined flow to publish your event, set
+                  ticket tiers, and track sales in real-time.
+                </p>
+                <div className="mt-4">
+                  <Button asChild className="w-full sm:w-auto">
+                    <Link href="#" aria-label="Start hosting on Event Sphere">
+                      Start hosting
+                    </Link>
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Contact */}
+        <section id="contact" className="border-t">
+          <div className="mx-auto max-w-6xl px-4 py-12 md:py-16">
+            <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">Get in touch</h2>
+            <p className="mt-2 text-sm text-muted-foreground md:text-base">
+              Questions or feedback? We’d love to hear from you.
+            </p>
+            <div className="mt-4">
+              <Button asChild variant="secondary">
+                <a href="mailto:hello@eventsphere.local" aria-label="Email Event Sphere">
+                  Email us
+                </a>
+              </Button>
+            </div>
+          </div>
+        </section>
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+
+      <footer className="border-t">
+        <div className="mx-auto max-w-6xl px-4 py-8 text-center text-sm text-muted-foreground">
+          © {new Date().getFullYear()} Event Sphere. All rights reserved.
+        </div>
       </footer>
-    </div>
-  );
+    </>
+  )
 }

@@ -1,0 +1,101 @@
+<%-
+  include('../layout', {
+    body: `
+<section class="py-5">
+  <div class="container">
+    <div class="d-flex align-items-center justify-content-between mb-4">
+      <div>
+        <h1 class="h3 fw-bold m-0">Admin Dashboard</h1>
+        <p class="text-muted m-0">Manage events and view contact messages.</p>
+      </div>
+      <span class="badge bg-light text-dark">Signed in as ${user ? user.name : ''}</span>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-12 col-lg-6">
+        <div class="card shadow-sm h-100">
+          <div class="card-body">
+            <h2 class="h5 mb-3">Add New Event</h2>
+            <form method="POST" action="/admin/events" class="row g-3" novalidate>
+              <div class="col-12">
+                <label class="form-label">Title</label>
+                <input name="title" type="text" class="form-control" required />
+              </div>
+              <div class="col-12 col-md-6">
+                <label class="form-label">Date</label>
+                <input name="date" type="date" class="form-control" required />
+              </div>
+              <div class="col-12">
+                <label class="form-label">Image URL</label>
+                <input name="imageUrl" type="url" class="form-control" placeholder="https://..." required />
+              </div>
+              <div class="col-12">
+                <label class="form-label">Description</label>
+                <textarea name="description" rows="4" class="form-control" required></textarea>
+              </div>
+              <div class="col-12">
+                <button class="btn btn-primary" type="submit"><i class="fa-solid fa-plus me-1"></i> Create Event</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-lg-6">
+        <div class="card shadow-sm h-100">
+          <div class="card-body">
+            <h2 class="h5 mb-3">Contact Messages</h2>
+            <div class="list-group list-group-flush">
+              ${
+                (contacts && contacts.length
+                  ? contacts.map(c => `
+                    <div class="list-group-item">
+                      <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                          <strong>${c.name}</strong> <span class="text-muted">&lt;${c.email}&gt;</span>
+                        </div>
+                        <small class="text-muted">${new Date(c.createdAt).toLocaleString()}</small>
+                      </div>
+                      <p class="mb-0 mt-2">${c.message}</p>
+                    </div>
+                  `).join("") : `<div class="text-muted">No messages yet.</div>`)
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h2 class="h5 mb-3">Manage Events</h2>
+            <div class="row g-3">
+              ${
+                (events && events.length
+                  ? events.map(ev => `
+                    <div class="col-12 col-md-6 col-lg-4">
+                      <div class="card h-100 border-0 shadow-sm card-hover">
+                        <img src="${ev.imageUrl}" class="card-img-top" alt="${ev.title}">
+                        <div class="card-body">
+                          <h5 class="card-title text-truncate">${ev.title}</h5>
+                          <p class="card-subtitle mb-2 text-muted">${new Date(ev.date).toLocaleDateString()}</p>
+                          <p class="card-text clamp-3">${ev.description}</p>
+                          <form method="POST" action="/admin/events/${ev._id}?_method=DELETE">
+                            <button class="btn btn-outline-danger btn-sm" type="submit">
+                              <i class="fa-solid fa-trash me-1"></i> Remove
+                            </button>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  `).join("") : `<div class="col-12"><div class="alert alert-info">No events created yet.</div></div>`)
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+`})
+%>

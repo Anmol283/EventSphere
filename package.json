@@ -1,27 +1,48 @@
 {
   "name": "event-sphere",
-  "version": "0.1.0",
-  "private": true,
+  "version": "1.0.0",
+  "description": "Event Sphere - Node.js + Express + MongoDB (Mongoose) with EJS and Bootstrap",
+  "main": "server.js",
+  "type": "module",
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "start": "node server.js",
+    "dev": "NODE_ENV=development node server.js"
+  },
+  "engines": {
+    "node": ">=18"
   },
   "dependencies": {
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "next": "15.2.4"
+    "bcryptjs": "^2.4.3",
+    "class-variance-authority": "0.7.1",
+    "clsx": "2.1.1",
+    "compression": "^1.7.4",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "express-session": "^1.17.3",
+    "express-validator": "^7.2.0",
+    "helmet": "^8.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "lucide-react": "0.544.0",
+    "method-override": "^3.0.0",
+    "mongoose": "^8.6.0",
+    "morgan": "^1.10.0",
+    "next": "15.5.3",
+    "path": "0.12.7",
+    "react": "19.1.1",
+    "react-dom": "19.1.1",
+    "tailwind-merge": "3.3.1",
+    "tailwindcss-animate": "1.0.7",
+    "url": "0.11.4"
   },
   "devDependencies": {
-    "typescript": "^5",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "@tailwindcss/postcss": "^4",
-    "tailwindcss": "^4",
-    "eslint": "^9",
-    "eslint-config-next": "15.2.4",
-    "@eslint/eslintrc": "^3"
+    "@types/node": "24.5.2",
+    "@types/react": "19.1.13",
+    "@types/react-dom": "19.1.9",
+    "postcss": "8.5.6",
+    "tailwindcss": "4.1.13",
+    "typescript": "5.9.2"
   }
 }

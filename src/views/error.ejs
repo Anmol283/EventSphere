@@ -1,0 +1,19 @@
+<%-
+  include('layout', {
+    body: `
+<section class="py-5">
+  <div class="container">
+    <div class="text-center">
+      <h1 class="display-6 fw-bold mb-3">Something went wrong</h1>
+      <p class="text-muted">${typeof message !== 'undefined' ? message : 'An unexpected error occurred.'}</p>
+      <a href="/" class="btn btn-primary mt-3">Go Home</a>
+    </div>
+  </div>
+</section>
+`,
+    user: (typeof user !== 'undefined' ? user : null),
+    title: (typeof title !== 'undefined' ? title : 'Error'),
+    success: (typeof success !== 'undefined' ? success : []),
+    error: (typeof error !== 'undefined' ? error : [])
+  }) 
+%>

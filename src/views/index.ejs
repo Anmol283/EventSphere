@@ -1,0 +1,45 @@
+<%-
+  include('layout', {
+    body: `
+<section class="bg-primary text-white py-5">
+  <div class="container d-flex flex-column flex-md-row align-items-center gap-4">
+    <div class="flex-grow-1">
+      <h1 class="display-5 fw-bold text-balance">${tagline}</h1>
+      <p class="lead opacity-75">Your hub for upcoming events. Discover, track, and share experiences.</p>
+      <a href="/events" class="btn btn-light btn-lg mt-2">Browse Events</a>
+    </div>
+    <img src="/images/hero.jpg" class="rounded shadow-lg hero-image" alt="Event crowd illustration" />
+  </div>
+</section>
+
+<section class="py-5">
+  <div class="container">
+    <div class="d-flex align-items-center justify-content-between mb-3">
+      <h2 class="h3 m-0">Featured Events</h2>
+      <a class="link-primary" href="/events">See all</a>
+    </div>
+    <div class="row g-4">
+      ${
+        (featured && featured.length
+          ? featured.map(ev => `
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="card h-100 card-hover shadow-sm">
+            <img src="${ev.imageUrl}" class="card-img-top" alt="${ev.title}">
+            <div class="card-body">
+              <h5 class="card-title text-truncate">${ev.title}</h5>
+              <p class="card-subtitle mb-2 text-muted">${new Date(ev.date).toLocaleDateString()}</p>
+              <p class="card-text clamp-3">${ev.description}</p>
+              <a href="/events?q=${encodeURIComponent(ev.title)}" class="stretched-link">Learn more</a>
+            </div>
+          </div>
+        </div>
+      `).join("") : `
+      <div class="col-12">
+        <div class="alert alert-info">No events yet. Check back soon!</div>
+      </div>` )
+      }
+    </div>
+  </div>
+</section>
+`})
+%>
