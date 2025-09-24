@@ -1,3 +1,4 @@
+//admin.js
 import { Router } from "express"
 import { body, validationResult } from "express-validator"
 import { requireAuth /*, requireAdmin*/ } from "../middleware/auth.js"
