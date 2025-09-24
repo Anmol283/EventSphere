@@ -3,17 +3,19 @@ import User from "../models/User.js" //path
 
 const JWT_COOKIE = "token"
 
+// Create a signed JWT with a 1-day expiration
 export function signJwt(payload) {
   const secret = process.env.JWT_SECRET || "devjwt"
   return jwt.sign(payload, secret, { expiresIn: "1d" })
 }
 
+// Validate and decode a JWT using the same secret
 export function verifyJwt(token) {
   const secret = process.env.JWT_SECRET || "devjwt"
   return jwt.verify(token, secret)
 }
 
-// Adds res.locals.user if valid token exists
+// Middleware: if a valid token cookie exists, load the user into req.user and res.locals.user
 export async function attachCurrentUser(req, res, next) {
   res.locals.user = null
   try {
@@ -32,7 +34,7 @@ export async function attachCurrentUser(req, res, next) {
   }
 }
 
-// Protects admin routes
+// Middleware: ensure the request is from an authenticated user
 export function requireAuth(req, res, next) {
   if (!req.user) {
     req.flash("error", "Please log in to access the dashboard.")
@@ -41,7 +43,7 @@ export function requireAuth(req, res, next) {
   return next()
 }
 
-// Optional: require admin role
+// Middleware: ensure the current user has the admin role
 export function requireAdmin(req, res, next) {
   if (!req.user || req.user.role !== "admin") {
     req.flash("error", "You do not have permission to access this page.")
@@ -50,7 +52,7 @@ export function requireAdmin(req, res, next) {
   return next()
 }
 
-// Set JWT cookie
+// Helper: send the JWT as a secure cookie to the client
 export function setJwtCookie(res, token) {
   res.cookie("token", token, {
     httpOnly: true,
