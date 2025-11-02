@@ -1,0 +1,79 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="/">
+      <i class="fas fa-calendar-alt me-2"></i>Event Sphere
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto" id="nav-links">
+        <li class="nav-item">
+          <a class="nav-link" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/about">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/events">Events</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/contact">Contact</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/admin">Admin</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const navLinks = document.getElementById('nav-links');
+    const userData = JSON.parse(localStorage.getItem('user')) || JSON.parse(sessionStorage.getItem('user'));
+
+    // Remove existing user-related links to prevent duplicates
+    document.querySelectorAll('.user-link').forEach(el => el.remove());
+
+    if (userData) {
+      // ✅ Logged-in user
+      const profileLink = document.createElement('li');
+      profileLink.className = 'nav-item user-link';
+      profileLink.innerHTML = `<a class="nav-link" href="#">Welcome, ${userData.name}</a>`;
+
+      const logoutLink = document.createElement('li');
+      logoutLink.className = 'nav-item user-link';
+      logoutLink.innerHTML = `<a class="nav-link" href="#" id="logout-btn">Logout</a>`;
+
+      navLinks.appendChild(profileLink);
+      navLinks.appendChild(logoutLink);
+
+      document.getElementById('logout-btn').addEventListener('click', (e) => {
+        e.preventDefault();
+        localStorage.removeItem('user');
+        sessionStorage.removeItem('user');
+        alert('You have been logged out!');
+        location.reload();
+      });
+    } else {
+      // ❌ Not logged in
+      const loginLink = document.createElement('li');
+      loginLink.className = 'nav-item user-link';
+      loginLink.innerHTML = `<a class="nav-link" href="/auth/login">Login</a>`;
+
+      const registerLink = document.createElement('li');
+      registerLink.className = 'nav-item user-link';
+      registerLink.innerHTML = `<a class="nav-link" href="/auth/register">Register</a>`;
+
+      navLinks.appendChild(loginLink);
+      navLinks.appendChild(registerLink);
+    }
+
+    // Debug info in console
+    console.log("Local Storage User:", localStorage.getItem('user'));
+    console.log("Session Storage User:", sessionStorage.getItem('user'));
+  });
+</script>

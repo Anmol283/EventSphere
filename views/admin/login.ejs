@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+    <style>
+        .login-container {
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--primary-color) 0%, #0056b3 100%);
+        }
+        .login-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .login-header {
+            background: var(--primary-color);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+        .login-body {
+            padding: 2rem;
+        }
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container d-flex align-items-center justify-content-center">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-5 col-md-7">
+                    <div class="login-card">
+                        <div class="login-header">
+                            <i class="fas fa-shield-alt fa-3x mb-3"></i>
+                            <h2 class="fw-bold mb-2">Admin Login</h2>
+                            <p class="mb-0 opacity-75">Access the Event Sphere admin panel</p>
+                        </div>
+                        
+                        <div class="login-body">
+                            <!-- Flash Messages -->
+                            <% if (typeof success !== 'undefined' && success) { %>
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <i class="fas fa-check-circle me-2"></i><%= success %>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                </div>
+                            <% } %>
+
+                            <% if (typeof error !== 'undefined' && error) { %>
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <i class="fas fa-exclamation-triangle me-2"></i><%= error %>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                </div>
+                            <% } %>
+
+                            <form action="/admin/login" method="POST" id="admin-login-form">
+                                <div class="mb-4">
+                                    <label for="username" class="form-label fw-semibold">
+                                        <i class="fas fa-user me-2 text-primary"></i>Username
+                                    </label>
+                                    <input type="text" class="form-control form-control-lg" id="username" 
+                                           name="username" required autocomplete="username"
+                                           placeholder="Enter your username">
+                                    <div class="invalid-feedback">
+                                        Please provide a valid username.
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <label for="password" class="form-label fw-semibold">
+                                        <i class="fas fa-lock me-2 text-primary"></i>Password
+                                    </label>
+                                    <div class="input-group">
+                                        <input type="password" class="form-control form-control-lg" id="password" 
+                                               name="password" required autocomplete="current-password"
+                                               placeholder="Enter your password">
+                                        <button class="btn btn-outline-secondary" type="button" id="toggle-password">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        Please provide your password.
+                                    </div>
+                                </div>
+
+                                <div class="mb-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="remember" name="remember">
+                                        <label class="form-check-label" for="remember">
+                                            Remember me for 30 days
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="d-grid mb-4">
+                                    <button type="submit" class="btn btn-primary btn-lg">
+                                        <i class="fas fa-sign-in-alt me-2"></i>Sign In
+                                    </button>
+                                </div>
+                            </form>
+
+                            <div class="text-center">
+                                <hr class="my-4">
+                                <a href="/" class="text-decoration-none text-muted">
+                                    <i class="fas fa-arrow-left me-2"></i>Back to Website
+                                </a>
+                            </div>
+
+                            <!-- Demo Credentials Info -->
+                            <div class="mt-4 p-3 bg-light rounded">
+                                <h6 class="fw-bold text-muted mb-2">
+                                    <i class="fas fa-info-circle me-2"></i>Demo Credentials
+                                </h6>
+                                <small class="text-muted">
+                                    <strong>Username:</strong> admin<br>
+                                    <strong>Password:</strong> password123
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Password toggle functionality
+        document.getElementById('toggle-password').addEventListener('click', function() {
+            const passwordInput = document.getElementById('password');
+            const icon = this.querySelector('i');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        });
+
+        // Form validation
+        document.getElementById('admin-login-form').addEventListener('submit', function(e) {
+            const form = this;
+            const username = form.querySelector('#username').value.trim();
+            const password = form.querySelector('#password').value.trim();
+            
+            // Reset previous validation states
+            form.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
+            
+            let isValid = true;
+            
+            if (!username) {
+                form.querySelector('#username').classList.add('is-invalid');
+                isValid = false;
+            }
+            
+            if (!password) {
+                form.querySelector('#password').classList.add('is-invalid');
+                isValid = false;
+            }
+            
+            if (!isValid) {
+                e.preventDefault();
+                return false;
+            }
+            
+            // Add loading state
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Signing In...';
+            submitBtn.disabled = true;
+            
+            // Reset button after 5 seconds (fallback)
+            setTimeout(() => {
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }, 5000);
+        });
+
+        // Auto-hide flash messages
+        document.addEventListener('DOMContentLoaded', () => {
+            const alerts = document.querySelectorAll('.alert');
+            alerts.forEach(alert => {
+                setTimeout(() => {
+                    if (alert && alert.parentNode) {
+                        alert.style.opacity = '0';
+                        setTimeout(() => {
+                            alert.remove();
+                        }, 300);
+                    }
+                }, 5000);
+            });
+        });
+
+        // Auto-focus username field
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('username').focus();
+        });
+    </script>
+</body>
+</html>
