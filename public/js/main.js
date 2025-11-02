@@ -60,6 +60,76 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     })
   })
+
+  // Save user preferences to localStorage
+  const saveUserPreferences = () => {
+    const preferences = {
+      theme: document.body.classList.contains("dark-mode") ? "dark" : "light",
+      fontSize: document.body.style.fontSize || "16px",
+      lastVisit: new Date().toISOString(),
+    }
+    Storage.local.setItem("userPreferences", preferences)
+  }
+
+  // Save session data
+  const saveSessionData = () => {
+    const sessionData = {
+      pageViews: (Storage.session.getItem("sessionData")?.pageViews || 0) + 1,
+      lastPage: window.location.pathname,
+      sessionStarted:
+        Storage.session.getItem("sessionData")?.sessionStarted ||
+        new Date().toISOString(),
+    }
+    Storage.session.setItem("sessionData", sessionData)
+  }
+
+  // Load user preferences
+  const loadUserPreferences = () => {
+    const preferences = Storage.local.getItem("userPreferences")
+    if (preferences) {
+      if (preferences.theme === "dark") {
+        document.body.classList.add("dark-mode")
+      }
+      if (preferences.fontSize) {
+        document.body.style.fontSize = preferences.fontSize
+      }
+    }
+  }
+
+  // Track form data
+  const forms = document.querySelectorAll("form")
+  forms.forEach((form) => {
+    // Save form data to sessionStorage when typing
+    form.querySelectorAll("input, textarea").forEach((input) => {
+      input.addEventListener("input", () => {
+        const formData = {}
+        form.querySelectorAll("input, textarea").forEach((field) => {
+          if (field.type !== "password") {
+            formData[field.name] = field.value
+          }
+        })
+        Storage.session.setItem(`formData_${form.id || form.name}`, formData)
+      })
+    })
+
+    // Restore form data if available
+    const savedData = Storage.session.getItem(`formData_${form.id || form.name}`)
+    if (savedData) {
+      Object.keys(savedData).forEach((key) => {
+        const input = form.querySelector(`[name="${key}"]`)
+        if (input && input.type !== "password") {
+          input.value = savedData[key]
+        }
+      })
+    }
+  })
+
+  // Initialize
+  loadUserPreferences()
+  saveSessionData()
+
+  // Save preferences before leaving
+  window.addEventListener("beforeunload", saveUserPreferences)
 })
 
 // Utility function to show alerts

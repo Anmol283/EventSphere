@@ -156,5 +156,24 @@
             });
         });
     </script>
+    <script>
+        // Example of using storage in a view
+        document.addEventListener('DOMContentLoaded', () => {
+            // Save last viewed events
+            const currentEvents = document.querySelectorAll('.event-card').length;
+            Storage.local.setItem('lastEventCount', currentEvents);
+            
+            // Track view in session
+            const views = Storage.session.getItem('eventPageViews') || 0;
+            Storage.session.setItem('eventPageViews', views + 1);
+            
+            // Optional: Show a returning visitor message
+            const lastVisit = Storage.local.getItem('userPreferences')?.lastVisit;
+            if (lastVisit) {
+                const message = `Welcome back! Your last visit was ${new Date(lastVisit).toLocaleDateString()}`;
+                showAlert(message, 'info');
+            }
+        });
+    </script>
 </body>
 </html>
