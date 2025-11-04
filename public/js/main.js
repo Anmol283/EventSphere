@@ -29,8 +29,8 @@ document.addEventListener("DOMContentLoaded", () => {
   })
 
   // Form validation enhancement
-  const forms = document.querySelectorAll("form")
-  forms.forEach((form) => {
+  const form = document.querySelectorAll("form")
+  form.forEach((form) => {
     form.addEventListener("submit", (e) => {
       const requiredFields = form.querySelectorAll("[required]")
       let isValid = true
@@ -169,4 +169,15 @@ function addLoadingState(form) {
       submitBtn.disabled = false
     }, 3000)
   }
+}
+// Dark Mode Toggle
+const themeToggle = document.getElementById("theme-toggle");
+
+if (themeToggle) {
+  themeToggle.addEventListener("click", () => {
+    document.body.classList.toggle("dark-mode");
+    // Change icon when toggled
+    themeToggle.textContent =
+      document.body.classList.contains("dark-mode") ? "☀️" : "🌙";
+  });
 }

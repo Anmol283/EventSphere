@@ -7,172 +7,209 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="/css/style.css" rel="stylesheet">
+    <style>
+        /* Dark Glass Theme */
+        body {
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Header Section */
+        .page-header {
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(12px);
+            color: #fff;
+            text-align: center;
+            padding: 5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        .page-header h1 {
+            font-weight: 700;
+            font-size: 3rem;
+            background: linear-gradient(45deg, #00c6ff, #0072ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Event Cards */
+        .event-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 255, 255, 0.1);
+        }
+
+        .event-card img {
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            height: 220px;
+            object-fit: cover;
+        }
+
+        .event-card .card-body {
+            padding: 1.5rem;
+        }
+
+        .event-date {
+            color: #00c6ff;
+            font-weight: 600;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #0072ff, #00c6ff);
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(45deg, #00c6ff, #0072ff);
+            box-shadow: 0 0 15px rgba(0, 198, 255, 0.4);
+        }
+
+        .btn-outline-primary {
+            color: #00c6ff;
+            border: 1px solid #00c6ff;
+        }
+
+        .btn-outline-primary.active, .btn-outline-primary:hover {
+            background: #00c6ff;
+            color: #fff;
+        }
+
+        /* Call to Action */
+        .cta-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        /* Fade Animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
 </head>
 <body>
     <%- include('partials/navbar') %>
-    
+
     <main>
         <%- include('partials/flash-messages') %>
-        
-        <!-- Page Header -->
-        <section class="bg-primary text-white py-5">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-8 text-center">
-                        <h1 class="display-4 fw-bold mb-3">Upcoming Events</h1>
-                        <p class="lead">Discover amazing events happening near you</p>
-                    </div>
-                </div>
-            </div>
+
+        <!-- Hero Section -->
+        <section class="page-header fade-in show">
+            <h1>Upcoming Events</h1>
+            <p class="lead text-light">Discover amazing experiences happening around you.</p>
         </section>
 
-        <!-- Events Listing -->
-        <section class="py-5">
-            <div class="container">
-                <div class="row mb-4">
-                    <div class="col-lg-8">
-                        <h2 class="h4 mb-0">
-                            <i class="fas fa-calendar-alt text-primary me-2"></i>
-                            All Events (<%= events.length %>)
-                        </h2>
-                    </div>
-                    <div class="col-lg-4 text-lg-end">
-                        <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-outline-primary active" data-filter="all">
-                                <i class="fas fa-th me-1"></i>All
-                            </button>
-                            <button type="button" class="btn btn-outline-primary" data-filter="upcoming">
-                                <i class="fas fa-clock me-1"></i>Upcoming
-                            </button>
-                        </div>
-                    </div>
+        <!-- Events Section -->
+        <section class="container py-5 fade-in">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h3><i class="fas fa-calendar-alt text-info me-2"></i>All Events (<%= events.length %>)</h3>
+                <div class="btn-group">
+                    <button class="btn btn-outline-primary active" data-filter="all">
+                        <i class="fas fa-th me-1"></i>All
+                    </button>
+                    <button class="btn btn-outline-primary" data-filter="upcoming">
+                        <i class="fas fa-clock me-1"></i>Upcoming
+                    </button>
                 </div>
+            </div>
 
-                <div class="row g-4" id="events-container">
-                    <% if (events && events.length > 0) { %>
-                        <% events.forEach(event => { %>
-                            <div class="col-lg-4 col-md-6 event-item" data-date="<%= event.date %>">
-                                <div class="card event-card h-100">
-                                    <img src="<%= event.image %>" class="card-img-top" alt="<%= event.title %>">
-                                    <div class="card-body d-flex flex-column">
-                                        <div class="d-flex justify-content-between align-items-start mb-3">
-                                            <h5 class="card-title mb-0"><%= event.title %></h5>
-                                            <span class="event-date">
-                                                <i class="fas fa-calendar-alt me-1"></i>
-                                                <%= new Date(event.date).toLocaleDateString('en-US', { 
-                                                    month: 'short', 
-                                                    day: 'numeric',
-                                                    year: 'numeric'
-                                                }) %>
-                                            </span>
-                                        </div>
-                                        <p class="card-text flex-grow-1 text-muted"><%= event.description %></p>
-                                        <div class="d-flex justify-content-between align-items-center mt-auto">
-                                            <small class="text-muted">
-                                                <i class="fas fa-clock me-1"></i>
-                                                <%= new Date(event.date) > new Date() ? 'Upcoming' : 'Past Event' %>
-                                            </small>
-                                            <button class="btn btn-primary btn-sm">
-                                                <i class="fas fa-info-circle me-1"></i>Details
-                                            </button>
-                                        </div>
+            <div class="row g-4" id="events-container">
+                <% if (events && events.length > 0) { %>
+                    <% events.forEach(event => { %>
+                        <div class="col-lg-4 col-md-6 event-item" data-date="<%= event.date %>">
+                            <div class="card glass event-card h-100">
+                                <img src="<%= event.image %>" alt="<%= event.title %>">
+                                <div class="card-body d-flex flex-column">
+                                    <h5 class="card-title mb-2"><%= event.title %></h5>
+                                    <span class="event-date mb-3">
+                                        <i class="fas fa-calendar-alt me-1"></i>
+                                        <%= new Date(event.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) %>
+                                    </span>
+                                    <p class="text-light flex-grow-1"><%= event.description %></p>
+                                    <div class="mt-auto d-flex justify-content-between align-items-center">
+                                        <small class="text-muted"><%= new Date(event.date) > new Date() ? 'Upcoming' : 'Past Event' %></small>
+                                        <a href="/events/<%= event._id %>" class="btn btn-primary btn-sm">
+                                            <i class="fas fa-info-circle me-1"></i>Details
+                                        </a>
                                     </div>
                                 </div>
                             </div>
-                        <% }) %>
-                    <% } else { %>
-                        <div class="col-12">
-                            <div class="text-center py-5">
-                                <i class="fas fa-calendar-times fa-4x text-muted mb-4"></i>
-                                <h3 class="text-muted">No Events Available</h3>
-                                <p class="text-muted mb-4">There are currently no events scheduled. Check back soon for exciting new events!</p>
-                                <a href="/contact" class="btn btn-primary">
-                                    <i class="fas fa-envelope me-2"></i>Contact Us for Event Suggestions
-                                </a>
-                            </div>
                         </div>
-                    <% } %>
-                </div>
-
-                <!-- Load More Button (for future pagination) -->
-                <% if (events && events.length > 6) { %>
-                    <div class="text-center mt-5">
-                        <button class="btn btn-outline-primary btn-lg" id="load-more-btn">
-                            <i class="fas fa-plus me-2"></i>Load More Events
-                        </button>
+                    <% }) %>
+                <% } else { %>
+                    <div class="text-center py-5">
+                        <i class="fas fa-calendar-times fa-3x text-muted mb-3"></i>
+                        <h4>No Events Available</h4>
+                        <p>There are currently no events scheduled. Check back soon!</p>
                     </div>
                 <% } %>
             </div>
         </section>
 
-        <!-- Call to Action -->
-        <section class="py-5 bg-light">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-8 text-center">
-                        <h2 class="fw-bold mb-3">Want to Host Your Own Event?</h2>
-                        <p class="lead text-muted mb-4">
-                            Join thousands of event organizers who trust Event Sphere to bring their vision to life.
-                        </p>
-                        <a href="/contact" class="btn btn-primary btn-lg">
-                            <i class="fas fa-plus-circle me-2"></i>Get Started
-                        </a>
-                    </div>
-                </div>
-            </div>
+        <!-- CTA Section -->
+        <section class="cta-section fade-in show">
+            <h2 class="fw-bold mb-3">Want to Host Your Own Event?</h2>
+            <p class="lead text-light mb-4">Join thousands of organizers who trust Event Sphere.</p>
+            <a href="/contact" class="btn btn-primary btn-lg">
+                <i class="fas fa-plus-circle me-2"></i>Get Started
+            </a>
         </section>
     </main>
-    
+
     <%- include('partials/footer') %>
-    
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/js/main.js"></script>
     <script>
-        // Event filtering functionality
-        document.addEventListener('DOMContentLoaded', () => {
-            const filterButtons = document.querySelectorAll('[data-filter]');
-            const eventItems = document.querySelectorAll('.event-item');
-            
-            filterButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    // Update active button
-                    filterButtons.forEach(btn => btn.classList.remove('active'));
-                    button.classList.add('active');
-                    
-                    const filter = button.getAttribute('data-filter');
-                    const currentDate = new Date();
-                    
-                    eventItems.forEach(item => {
-                        const eventDate = new Date(item.getAttribute('data-date'));
-                        let show = true;
-                        
-                        if (filter === 'upcoming') {
-                            show = eventDate >= currentDate;
-                        }
-                        
-                        item.style.display = show ? 'block' : 'none';
-                    });
-                });
+        // Fade-in animation
+        document.addEventListener("DOMContentLoaded", () => {
+            const fadeEls = document.querySelectorAll('.fade-in');
+            fadeEls.forEach((el, index) => {
+                setTimeout(() => el.classList.add('show'), 200 * index);
             });
         });
-    </script>
-    <script>
-        // Example of using storage in a view
-        document.addEventListener('DOMContentLoaded', () => {
-            // Save last viewed events
-            const currentEvents = document.querySelectorAll('.event-card').length;
-            Storage.local.setItem('lastEventCount', currentEvents);
-            
-            // Track view in session
-            const views = Storage.session.getItem('eventPageViews') || 0;
-            Storage.session.setItem('eventPageViews', views + 1);
-            
-            // Optional: Show a returning visitor message
-            const lastVisit = Storage.local.getItem('userPreferences')?.lastVisit;
-            if (lastVisit) {
-                const message = `Welcome back! Your last visit was ${new Date(lastVisit).toLocaleDateString()}`;
-                showAlert(message, 'info');
-            }
+
+        // Filter logic
+        const filterButtons = document.querySelectorAll('[data-filter]');
+        const eventItems = document.querySelectorAll('.event-item');
+
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                const filter = button.getAttribute('data-filter');
+                const now = new Date();
+                eventItems.forEach(item => {
+                    const eventDate = new Date(item.dataset.date);
+                    if (filter === 'upcoming' && eventDate < now) {
+                        item.style.display = 'none';
+                    } else {
+                        item.style.display = 'block';
+                    }
+                });
+            });
         });
     </script>
 </body>
