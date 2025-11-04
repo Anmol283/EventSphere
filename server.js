@@ -45,12 +45,6 @@ process.on("SIGINT", async () => {
   }
 });
 
-// Admin credentials (for demo)
-const ADMIN_CREDENTIALS = {
-  username: "admin",
-  password: "password123",
-};
-
 // Middleware
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -160,14 +154,45 @@ app.get("/admin/login", (req, res) => {
   res.render("admin/login", { title: "Admin Login - Event Sphere" });
 });
 
-app.post("/admin/login", (req, res) => {
-  const { username, password } = req.body;
-  if (username === ADMIN_CREDENTIALS.username && password === ADMIN_CREDENTIALS.password) {
-    req.session.isAdmin = true;
-    req.session.success = "Welcome to the admin panel!";
-    res.redirect("/admin");
-  } else {
-    req.session.error = "Invalid username or password.";
+app.post("/admin/login", async (req, res) => {
+  try {
+    const { username, password, remember } = req.body;
+
+    // Validate input
+    if (!username || !password) {
+      req.session.error = "Please provide both username and password.";
+      return res.redirect("/admin/login");
+    }
+
+    // Check credentials against MongoDB admins collection
+    const admin = await db.collection("admins").findOne({
+      username: username,
+      password: password
+    });
+
+    if (admin) {
+      // Successful login
+      req.session.isAdmin = true;
+      req.session.adminId = admin._id.toString();
+      req.session.adminUsername = admin.username;
+      
+      // Set session expiry based on "remember me"
+      if (remember) {
+        req.session.cookie.maxAge = 30 * 24 * 60 * 60 * 1000; // 30 days
+      } else {
+        req.session.cookie.maxAge = 24 * 60 * 60 * 1000; // 1 day
+      }
+      
+      req.session.success = "Welcome to the admin panel!";
+      res.redirect("/admin");
+    } else {
+      // Invalid credentials
+      req.session.error = "Invalid username or password.";
+      res.redirect("/admin/login");
+    }
+  } catch (error) {
+    console.error("Login error:", error);
+    req.session.error = "An error occurred during login. Please try again.";
     res.redirect("/admin/login");
   }
 });
@@ -187,7 +212,7 @@ app.get("/admin", requireAuth, async (req, res) => {
       events,
       contactSubmissions: contacts,
       userCount,
-      adminName: "Admin",
+      adminName: req.session.adminUsername || "Admin",
     });
   } catch (error) {
     console.error("Dashboard error:", error);
@@ -196,7 +221,7 @@ app.get("/admin", requireAuth, async (req, res) => {
       events: [],
       contactSubmissions: [],
       userCount: 0,
-      adminName: "Admin",
+      adminName: req.session.adminUsername || "Admin",
       error: "Failed to load dashboard data",
     });
   }
