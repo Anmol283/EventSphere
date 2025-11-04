@@ -38,39 +38,39 @@
     // Remove existing user-related links to prevent duplicates
     document.querySelectorAll('.user-link').forEach(el => el.remove());
 
-    if (userData) {
-      // ✅ Logged-in user
-      const profileLink = document.createElement('li');
-      profileLink.className = 'nav-item user-link';
-      profileLink.innerHTML = `<a class="nav-link" href="#">Welcome, ${userData.name}</a>`;
+    // if (userData) {
+    //   // ✅ Logged-in user
+    //   const profileLink = document.createElement('li');
+    //   profileLink.className = 'nav-item user-link';
+    //   profileLink.innerHTML = `<a class="nav-link" href="#">Welcome, ${userData.name}</a>`;
 
-      const logoutLink = document.createElement('li');
-      logoutLink.className = 'nav-item user-link';
-      logoutLink.innerHTML = `<a class="nav-link" href="#" id="logout-btn">Logout</a>`;
+    //   const logoutLink = document.createElement('li');
+    //   logoutLink.className = 'nav-item user-link';
+    //   logoutLink.innerHTML = `<a class="nav-link" href="#" id="logout-btn">Logout</a>`;
 
-      navLinks.appendChild(profileLink);
-      navLinks.appendChild(logoutLink);
+    //   navLinks.appendChild(profileLink);
+    //   navLinks.appendChild(logoutLink);
 
-      document.getElementById('logout-btn').addEventListener('click', (e) => {
-        e.preventDefault();
-        localStorage.removeItem('user');
-        sessionStorage.removeItem('user');
-        alert('You have been logged out!');
-        location.reload();
-      });
-    } else {
-      // ❌ Not logged in
-      const loginLink = document.createElement('li');
-      loginLink.className = 'nav-item user-link';
-      loginLink.innerHTML = `<a class="nav-link" href="/auth/login">Login</a>`;
+    //   document.getElementById('logout-btn').addEventListener('click', (e) => {
+    //     e.preventDefault();
+    //     localStorage.removeItem('user');
+    //     sessionStorage.removeItem('user');
+    //     alert('You have been logged out!');
+    //     location.reload();
+    //   });
+    // } else {
+    //   // ❌ Not logged in
+    //   const loginLink = document.createElement('li');
+    //   loginLink.className = 'nav-item user-link';
+    //   loginLink.innerHTML = `<a class="nav-link" href="/auth/login">Login</a>`;
 
-      const registerLink = document.createElement('li');
-      registerLink.className = 'nav-item user-link';
-      registerLink.innerHTML = `<a class="nav-link" href="/auth/register">Register</a>`;
+    //   const registerLink = document.createElement('li');
+    //   registerLink.className = 'nav-item user-link';
+    //   registerLink.innerHTML = `<a class="nav-link" href="/auth/register">Register</a>`;
 
-      navLinks.appendChild(loginLink);
-      navLinks.appendChild(registerLink);
-    }
+    //   navLinks.appendChild(loginLink);
+    //   navLinks.appendChild(registerLink);
+    // }
 
     // Debug info in console
     console.log("Local Storage User:", localStorage.getItem('user'));
