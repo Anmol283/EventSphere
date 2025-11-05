@@ -8,37 +8,41 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="/css/style.css" rel="stylesheet">
     <style>
-        /* Dark Glass Theme */
+        /* Light Gradient Background */
         body {
-            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-            color: #fff;
+            background: linear-gradient(135deg, #f9f9f9 0%, #eaeaea 100%);
+            color: #212529;
             font-family: 'Poppins', sans-serif;
             min-height: 100vh;
+            position: relative;
         }
 
+        /* Glass Cards */
         .glass {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 0, 0, 0.05);
             border-radius: 20px;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
-        /* Header Section */
+        /* Page Header */
         .page-header {
-            background: rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(12px);
-            color: #fff;
+            background: linear-gradient(135deg, #e0e0e0, #ffffff);
+            color: #212529;
             text-align: center;
             padding: 5rem 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
         }
+
         .page-header h1 {
             font-weight: 700;
             font-size: 3rem;
-            background: linear-gradient(45deg, #00c6ff, #0072ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: #001F54;
+        }
+
+        .page-header p {
+            color: #333;
         }
 
         /* Event Cards */
@@ -49,7 +53,7 @@
 
         .event-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 255, 255, 0.1);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
         }
 
         .event-card img {
@@ -59,42 +63,39 @@
             object-fit: cover;
         }
 
-        .event-card .card-body {
-            padding: 1.5rem;
-        }
-
         .event-date {
-            color: #00c6ff;
+            color: #001F54;
             font-weight: 600;
         }
 
+        /* Buttons Gradient */
         .btn-primary {
-            background: linear-gradient(45deg, #0072ff, #00c6ff);
+            background: linear-gradient(135deg, #001F54, #003566);
             border: none;
             transition: all 0.3s ease;
         }
 
         .btn-primary:hover {
-            background: linear-gradient(45deg, #00c6ff, #0072ff);
-            box-shadow: 0 0 15px rgba(0, 198, 255, 0.4);
+            background: linear-gradient(135deg, #003566, #001F54);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
         }
 
         .btn-outline-primary {
-            color: #00c6ff;
-            border: 1px solid #00c6ff;
+            color: #001F54;
+            border: 1px solid #001F54;
         }
 
         .btn-outline-primary.active, .btn-outline-primary:hover {
-            background: #00c6ff;
+            background: #001F54;
             color: #fff;
         }
 
-        /* Call to Action */
+        /* CTA Section */
         .cta-section {
-            background: rgba(255, 255, 255, 0.05);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            background: linear-gradient(135deg, #f0f0f0, #e0e0e0);
             padding: 4rem 0;
             text-align: center;
+            border-top: 1px solid rgba(0,0,0,0.05);
         }
 
         /* Fade Animation */
@@ -108,6 +109,11 @@
             opacity: 1;
             transform: translateY(0);
         }
+
+        /* Spacing between sections */
+        section + section {
+            margin-top: 3rem;
+        }
     </style>
 </head>
 <body>
@@ -116,16 +122,26 @@
     <main>
         <%- include('partials/flash-messages') %>
 
-        <!-- Hero Section -->
-        <section class="page-header fade-in show">
-            <h1>Upcoming Events</h1>
-            <p class="lead text-light">Discover amazing experiences happening around you.</p>
-        </section>
+        <!-- Hero / Page Header -->
+      
+   <section class="page-header fade-in show" style="
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+                url('https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?fm=jpg&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE0fHx8ZW58MHx8fHx8&ixlib=rb-4.1.0&q=80&w=1920') no-repeat center center;
+    background-size: cover;
+    color: #fff;
+    text-align: center;
+    padding: 5rem 0;
+">
+    <h1 style="color: white;">Upcoming Events</h1>
+    <p class="lead" style="color: white;">Discover amazing experiences happening around you.</p>
+</section>
+
+
 
         <!-- Events Section -->
         <section class="container py-5 fade-in">
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h3><i class="fas fa-calendar-alt text-info me-2"></i>All Events (<%= events.length %>)</h3>
+                <h3><i class="fas fa-calendar-alt text-primary me-2"></i>All Events (<%= events.length %>)</h3>
                 <div class="btn-group">
                     <button class="btn btn-outline-primary active" data-filter="all">
                         <i class="fas fa-th me-1"></i>All
@@ -148,7 +164,7 @@
                                         <i class="fas fa-calendar-alt me-1"></i>
                                         <%= new Date(event.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) %>
                                     </span>
-                                    <p class="text-light flex-grow-1"><%= event.description %></p>
+                                    <p class="text-dark flex-grow-1"><%= event.description %></p>
                                     <div class="mt-auto d-flex justify-content-between align-items-center">
                                         <small class="text-muted"><%= new Date(event.date) > new Date() ? 'Upcoming' : 'Past Event' %></small>
                                         <a href="/events/<%= event._id %>" class="btn btn-primary btn-sm">
@@ -172,7 +188,7 @@
         <!-- CTA Section -->
         <section class="cta-section fade-in show">
             <h2 class="fw-bold mb-3">Want to Host Your Own Event?</h2>
-            <p class="lead text-light mb-4">Join thousands of organizers who trust Event Sphere.</p>
+            <p class="lead mb-4">Join thousands of organizers who trust Event Sphere.</p>
             <a href="/contact" class="btn btn-primary btn-lg">
                 <i class="fas fa-plus-circle me-2"></i>Get Started
             </a>

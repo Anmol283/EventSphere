@@ -1,79 +1,76 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top shadow-sm" 
+     style="background: linear-gradient(135deg, #001F54, #003566, #004B8D);">
   <div class="container">
-    <a class="navbar-brand fw-bold" href="/">
-      <i class="fas fa-calendar-alt me-2"></i>Event Sphere
+    <!-- Brand -->
+    <a class="navbar-brand fw-bold d-flex align-items-center" href="/" style="color: #EAF4FF;">
+      <i class="fas fa-calendar-alt me-2 text-info"></i>
+      <span class="fs-4">Event Sphere</span>
     </a>
 
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+    <!-- Toggler -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
+    <!-- Links -->
     <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto" id="nav-links">
-        <li class="nav-item">
-          <a class="nav-link" href="/">Home</a>
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item mx-1">
+          <a class="nav-link px-3 rounded-pill" href="/" style="transition: 0.3s;">Home</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/about">About</a>
+        <li class="nav-item mx-1">
+          <a class="nav-link px-3 rounded-pill" href="/about" style="transition: 0.3s;">About</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/events">Events</a>
+        <li class="nav-item mx-1">
+          <a class="nav-link px-3 rounded-pill" href="/events" style="transition: 0.3s;">Events</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/contact">Contact</a>
+        <li class="nav-item mx-1">
+          <a class="nav-link px-3 rounded-pill" href="/contact" style="transition: 0.3s;">Contact</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/admin">Admin</a>
+        <li class="nav-item mx-1">
+          <a class="nav-link px-3 rounded-pill" href="/admin" style="transition: 0.3s;">Admin</a>
         </li>
       </ul>
     </div>
   </div>
 </nav>
 
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const navLinks = document.getElementById('nav-links');
-    const userData = JSON.parse(localStorage.getItem('user')) || JSON.parse(sessionStorage.getItem('user'));
+<style>
+  /* Navbar Styling Enhancements */
+  .navbar {
+    backdrop-filter: blur(6px);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+  }
 
-    // Remove existing user-related links to prevent duplicates
-    document.querySelectorAll('.user-link').forEach(el => el.remove());
+  .navbar-brand:hover {
+    color: #ffffff !important;
+    text-shadow: 0 0 8px rgba(173, 216, 230, 0.6);
+  }
 
-    // if (userData) {
-    //   // ✅ Logged-in user
-    //   const profileLink = document.createElement('li');
-    //   profileLink.className = 'nav-item user-link';
-    //   profileLink.innerHTML = `<a class="nav-link" href="#">Welcome, ${userData.name}</a>`;
+  .nav-link {
+    color: #EAEAEA !important;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+  }
 
-    //   const logoutLink = document.createElement('li');
-    //   logoutLink.className = 'nav-item user-link';
-    //   logoutLink.innerHTML = `<a class="nav-link" href="#" id="logout-btn">Logout</a>`;
+  .nav-link:hover,
+  .nav-link.active {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: #ffffff !important;
+  }
 
-    //   navLinks.appendChild(profileLink);
-    //   navLinks.appendChild(logoutLink);
+  .navbar-toggler {
+    border: none;
+    outline: none;
+  }
 
-    //   document.getElementById('logout-btn').addEventListener('click', (e) => {
-    //     e.preventDefault();
-    //     localStorage.removeItem('user');
-    //     sessionStorage.removeItem('user');
-    //     alert('You have been logged out!');
-    //     location.reload();
-    //   });
-    // } else {
-    //   // ❌ Not logged in
-    //   const loginLink = document.createElement('li');
-    //   loginLink.className = 'nav-item user-link';
-    //   loginLink.innerHTML = `<a class="nav-link" href="/auth/login">Login</a>`;
+  .navbar-toggler:focus {
+    box-shadow: none;
+  }
 
-    //   const registerLink = document.createElement('li');
-    //   registerLink.className = 'nav-item user-link';
-    //   registerLink.innerHTML = `<a class="nav-link" href="/auth/register">Register</a>`;
-
-    //   navLinks.appendChild(loginLink);
-    //   navLinks.appendChild(registerLink);
-    // }
-
-    // Debug info in console
-    console.log("Local Storage User:", localStorage.getItem('user'));
-    console.log("Session Storage User:", sessionStorage.getItem('user'));
-  });
-</script>
+  /* Optional: smooth entry effect */
+  .navbar {
+    transition: all 0.4s ease;
+  }
+</style>

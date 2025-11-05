@@ -14,6 +14,55 @@ body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   line-height: 1.6;
 }
+.bg-light {
+  background: linear-gradient(135deg, #f9f9f9 0%, #eaeaea 100%) !important;
+}
+/* === Global Button Gradient === */
+.btn,
+.btn-primary,
+.btn-secondary,
+.btn-success,
+.btn-danger,
+.btn-warning,
+.btn-info {
+  background: linear-gradient(135deg, #001F54, #003566) !important;
+  border: none;
+  color: #fff !important;
+  border-radius: 25px;
+  padding: 12px 30px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+/* === Hover Effect === */
+.btn:hover,
+.btn-primary:hover,
+.btn-secondary:hover,
+.btn-success:hover,
+.btn-danger:hover,
+.btn-warning:hover,
+.btn-info:hover {
+  background: linear-gradient(135deg, #003566, #001F54) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 31, 84, 0.3);
+}
+.transparent-input {
+    background: rgba(255, 255, 255, 0.1); /* transparent white */
+    color: #ffffff; /* text color */
+    border: 1px solid rgba(255, 255, 255, 0.3); /* subtle border */
+    border-radius: 8px;
+}
+
+.transparent-input::placeholder {
+    color: rgba(255, 255, 255, 0.7); /* placeholder text opacity */
+}
+
+.transparent-input:focus {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: #00BFFF; /* primary accent on focus */
+    box-shadow: 0 0 10px rgba(0, 191, 255, 0.5);
+    color: #ffffff;
+}
 
 .hero-section {
   background: linear-gradient(135deg, var(--primary-color) 0%, #0056b3 100%);
