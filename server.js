@@ -247,6 +247,33 @@ app.post("/admin/events", requireAuth, async (req, res) => {
   }
 });
 
+app.put("/admin/events/:id", requireAuth, async (req, res) => {
+  try {
+    const eventId = new ObjectId(req.params.id);
+    const { title, description, date, image } = req.body;
+    
+    const updatedEvent = {
+      title,
+      description,
+      date,
+      image: image || "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=400&h=250&fit=crop",
+      updatedAt: new Date(),
+    };
+    
+    await db.collection("events").updateOne(
+      { _id: eventId },
+      { $set: updatedEvent }
+    );
+    
+    req.session.success = "Event updated successfully!";
+    res.redirect("/admin");
+  } catch (error) {
+    console.error("Error updating event:", error);
+    req.session.error = "Failed to update event";
+    res.redirect("/admin");
+  }
+});
+
 app.delete("/admin/events/:id", requireAuth, async (req, res) => {
   try {
     const eventId = new ObjectId(req.params.id);

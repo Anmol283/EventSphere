@@ -108,6 +108,13 @@
             background: linear-gradient(90deg, var(--accent-pink), var(--primary-color));
             color: white;
         }
+
+        /* Button spacing */
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+        }
     </style>
 </head>
 
@@ -225,7 +232,7 @@
                                                      class="img-fluid rounded" 
                                                      style="height: 60px; width: 80px; object-fit: cover;">
                                             </div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-5">
                                                 <h5 class="mb-1"><%= event.title %></h5>
                                                 <p class="text-muted mb-1 small"><%= event.description.substring(0, 100) %>...</p>
                                                 <small class="text-primary">
@@ -240,13 +247,19 @@
                                                     <%= new Date(event.date) >= new Date() ? 'Upcoming' : 'Past' %>
                                                 </span>
                                             </div>
-                                            <div class="col-md-2 text-end">
-                                                <form action="/admin/events/<%= event.id %>?_method=DELETE" method="POST" 
-                                                      onsubmit="return confirm('Are you sure you want to delete this event?')">
-                                                    <button type="submit" class="btn btn-outline-danger btn-sm btn-delete">
-                                                        <i class="fas fa-trash"></i>
+                                            <div class="col-md-3">
+                                                <div class="action-buttons">
+                                                    <button type="button" class="btn btn-outline-primary btn-sm" 
+                                                            onclick="openEditModal('<%= event._id || event.id %>', '<%= event.title.replace(/'/g, "\\'") %>', '<%= event.date %>', '<%= event.image || "" %>', '<%= event.description.replace(/'/g, "\\'").replace(/\n/g, " ") %>')">
+                                                        <i class="fas fa-edit"></i>
                                                     </button>
-                                                </form>
+                                                    <form action="/admin/events/<%= event._id || event.id %>?_method=DELETE" method="POST" style="display: inline;" 
+                                                          onsubmit="return confirm('Are you sure you want to delete this event? This action cannot be undone.')">
+                                                        <button type="submit" class="btn btn-outline-danger btn-sm">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
+                                                    </form>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -349,6 +362,52 @@
         </div>
     </div>
 
+    <!-- Edit Event Modal -->
+    <div class="modal fade" id="editEventModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-edit me-2"></i>Edit Event
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <form id="edit-event-form" method="POST">
+                    <input type="hidden" name="_method" value="PUT">
+                    <div class="modal-body">
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label for="edit-title" class="form-label fw-semibold">Event Title *</label>
+                                <input type="text" class="form-control" id="edit-title" name="title" required placeholder="Enter event title">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="edit-date" class="form-label fw-semibold">Event Date *</label>
+                                <input type="date" class="form-control" id="edit-date" name="date" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="edit-image" class="form-label fw-semibold">Image URL</label>
+                                <input type="url" class="form-control" id="edit-image" name="image" placeholder="https://example.com/image.jpg">
+                                <div class="form-text">Leave empty for default image</div>
+                            </div>
+                            <div class="col-12">
+                                <label for="edit-description" class="form-label fw-semibold">Description *</label>
+                                <textarea class="form-control" id="edit-description" name="description" rows="4" required placeholder="Describe your event..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            <i class="fas fa-times me-2"></i>Cancel
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-2"></i>Update Event
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -376,7 +435,28 @@
             if (dateInput) {
                 dateInput.min = new Date().toISOString().split('T')[0];
             }
+            const editDateInput = document.getElementById('edit-date');
+            if (editDateInput) {
+                editDateInput.min = new Date().toISOString().split('T')[0];
+            }
         });
+
+        // Open Edit Modal Function
+        function openEditModal(eventId, title, date, image, description) {
+            const modal = new bootstrap.Modal(document.getElementById('editEventModal'));
+            const form = document.getElementById('edit-event-form');
+            
+            // Set form action
+            form.action = `/admin/events/${eventId}?_method=PUT`;
+            
+            // Populate form fields
+            document.getElementById('edit-title').value = title;
+            document.getElementById('edit-date').value = date.split('T')[0]; // Format date for input
+            document.getElementById('edit-image').value = image;
+            document.getElementById('edit-description').value = description;
+            
+            modal.show();
+        }
     </script>
 </body>
 </html>
