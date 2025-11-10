@@ -177,6 +177,36 @@ async function startServer() {
         res.redirect("/");
       }
     });
+// EVENT DETAILS PAGE
+app.get("/events/:id", async (req, res) => {
+    try {
+        const eventId = req.params.id;
+
+        // Validate if eventId is a valid MongoDB ObjectId
+        if (!ObjectId.isValid(eventId)) {
+            req.session.error = "Invalid event ID provided.";
+            return res.status(404).redirect("/events");
+        }
+
+        const event = await db.collection("events").findOne({ _id: new ObjectId(eventId) });
+
+        if (!event) {
+            req.session.error = "Event not found.";
+            return res.status(404).redirect("/events");
+        }
+
+        res.render("eventdetails", {
+            title: event.title + " - Event Sphere",
+            event: event,
+        });
+    } catch (error) {
+        console.error("Error fetching event details:", error);
+        req.session.error = "Failed to load event details.";
+        res.status(500).redirect("/events");
+    }
+});
+
+
 
     // CONTACT PAGE
     app.get("/contact", (req, res) => {
@@ -375,6 +405,7 @@ async function startServer() {
     // ========================================
     // 404 HANDLER
     // ========================================
+    
     app.use((req, res) => {
       res.status(404).render("404", { title: "Page Not Found - Event Sphere" });
     });
