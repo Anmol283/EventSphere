@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    }
+    
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 2px solid #f0f0f0;
+    }
+    
+    h1 {
+      color: #667eea;
+      font-size: 32px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    
+    .back-link {
+      color: white;
+      background: #667eea;
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+    .back-link:hover {
+      background: #764ba2;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+    .stat-card {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    }
+    .stat-card h3 {
+      margin: 0 0 10px 0;
+      font-size: 14px;
+      opacity: 0.9;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .stat-card .value {
+      font-size: 36px;
+      font-weight: bold;
+      margin: 0;
+    }
+    .keys-section {
+      margin-top: 30px;
+    }
+    .keys-section h2 {
+      color: #667eea;
+      margin-bottom: 15px;
+    }
+    .keys-list {
+      background: #f8f9fa;
+      border-radius: 8px;
+      padding: 20px;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    .key-item {
+      background: white;
+      padding: 10px 15px;
+      margin-bottom: 8px;
+      border-radius: 5px;
+      border-left: 4px solid #667eea;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .actions {
+      margin-top: 20px;
+    }
+    .btn {
+      background: #dc3545;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s;
+    }
+    .btn:hover {
+      background: #c82333;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(220, 53, 69, 0.4);
+    }
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      background: rgba(255,255,255,0.3);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-top: 10px;
+    }
+    .progress-fill {
+      height: 100%;
+      background: white;
+      transition: width 0.3s ease;
+    }
+    .info-text {
+      color: #666;
+      margin-top: 10px;
+      font-size: 14px;
+    }
+    .alert {
+      padding: 15px;
+      border-radius: 8px;
+      margin: 20px 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .alert-success {
+      background: #d4edda;
+      color: #155724;
+      border-left: 4px solid #28a745;
+    }
+    .alert-danger {
+      background: #f8d7da;
+      color: #721c24;
+      border-left: 4px solid #dc3545;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1><i class="fas fa-chart-line"></i> Cache Statistics</h1>
+      <a href="/admin" class="back-link"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+    </header>
+    
+    <p class="info-text">Monitor your Redis cache performance in real-time</p>
+
+    <% if (locals.success) { %>
+      <div class="alert alert-success">
+        <i class="fas fa-check-circle"></i> <%= success %>
+      </div>
+    <% } %>
+
+    <% if (locals.error) { %>
+      <div class="alert alert-danger">
+        <i class="fas fa-exclamation-circle"></i> <%= error %>
+      </div>
+    <% } %>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <h3>Total Requests</h3>
+        <p class="value"><%= stats.totalRequests %></p>
+      </div>
+
+      <div class="stat-card">
+        <h3>Cache Hits</h3>
+        <p class="value"><%= stats.hits %></p>
+        <div class="progress-bar">
+          <div class="progress-fill" style="width: <%= hitRate %>%"></div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <h3>Cache Misses</h3>
+        <p class="value"><%= stats.misses %></p>
+      </div>
+
+      <div class="stat-card">
+        <h3>Hit Rate</h3>
+        <p class="value"><%= hitRate %>%</p>
+      </div>
+
+      <div class="stat-card">
+        <h3>Total Keys</h3>
+        <p class="value"><%= totalKeys %></p>
+      </div>
+    </div>
+
+    <div class="keys-section">
+      <h2><i class="fas fa-key"></i> Cached Keys</h2>
+      
+      <div style="margin: 20px 0;">
+        <h3 style="color: #667eea; font-size: 18px; margin-bottom: 10px;">
+          <i class="fas fa-calendar-alt"></i> Event Cache Keys (<%= eventKeys.length %>)
+        </h3>
+        <div class="keys-list">
+          <% if (eventKeys.length === 0) { %>
+            <p style="color: #999; text-align: center; padding: 20px;">No event cache keys found</p>
+          <% } else { %>
+            <% eventKeys.forEach(key => { %>
+              <div class="key-item"><i class="fas fa-database"></i> <%= key %></div>
+            <% }) %>
+          <% } %>
+        </div>
+      </div>
+
+      <div style="margin: 20px 0;">
+        <h3 style="color: #667eea; font-size: 18px; margin-bottom: 10px;">
+          <i class="fas fa-user-lock"></i> Session Keys (<%= sessionKeys.length %>)
+        </h3>
+        <div class="keys-list" style="max-height: 200px;">
+          <% if (sessionKeys.length === 0) { %>
+            <p style="color: #999; text-align: center; padding: 20px;">No session keys found</p>
+          <% } else { %>
+            <% sessionKeys.slice(0, 10).forEach(key => { %>
+              <div class="key-item"><i class="fas fa-lock"></i> <%= key %></div>
+            <% }) %>
+            <% if (sessionKeys.length > 10) { %>
+              <p style="color: #666; text-align: center; margin-top: 10px; font-style: italic;">
+                ... and <%= sessionKeys.length - 10 %> more sessions
+              </p>
+            <% } %>
+          <% } %>
+        </div>
+      </div>
+
+      <% if (otherKeys.length > 0) { %>
+      <div style="margin: 20px 0;">
+        <h3 style="color: #667eea; font-size: 18px; margin-bottom: 10px;">
+          <i class="fas fa-ellipsis-h"></i> Other Keys (<%= otherKeys.length %>)
+        </h3>
+        <div class="keys-list">
+          <% otherKeys.forEach(key => { %>
+            <div class="key-item"><i class="fas fa-tag"></i> <%= key %></div>
+          <% }) %>
+        </div>
+      </div>
+      <% } %>
+    </div>
+
+    <div class="actions">
+      <form method="POST" action="/admin/cache-clear" style="display: inline;">
+        <button type="submit" class="btn" onclick="return confirm('Are you sure you want to clear all event cache? This will not affect sessions.')">
+          <i class="fas fa-trash-alt"></i> Clear Event Cache
+        </button>
+      </form>
+      
+      <div style="margin-top: 15px; padding: 15px; background: #fff3cd; border-left: 4px solid #ffc107; border-radius: 5px;">
+        <strong><i class="fas fa-info-circle"></i> Note:</strong> Clearing cache will temporarily slow down page loads until the cache is rebuilt.
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+</head>
+<body>
+    <%- include('partials/navbar') %>
+    
+    <main>
+<!-- Page Header -->
+<!-- Page Header -->
+<!-- Contact Section with Full Background -->
+<section class="position-relative py-5 text-white" 
+         style="background: url('https://plus.unsplash.com/premium_photo-1682125235036-d1ab54136ff4?ixlib=rb-4.1.0&auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;">
+
+    <!-- Dark Overlay -->
+    <div style="
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(0, 0, 0, 0.5); /* Adjust opacity as needed */
+        z-index: 0;
+    "></div>
+
+    <div class="container position-relative" style="z-index: 1;">
+        <!-- Form -->
+        <div class="row justify-content-center mb-5">
+            <div class="col-lg-8">
+<!-- Contact Form Section -->
+<div class="contact-form p-4 rounded" style="background: rgba(255, 255, 255, 0.05);">
+    <h2 class="text-center mb-4">Get in Touch</h2>
+    <form action="/contact" method="POST" id="contact-form">
+        <div class="row g-3">
+            <div class="col-md-6">
+                <label for="name" class="form-label">Full Name *</label>
+                <input type="text" class="form-control transparent-input" id="name" name="name" required>
+            </div>
+            <div class="col-md-6">
+                <label for="email" class="form-label">Email Address *</label>
+                <input type="email" class="form-control transparent-input" id="email" name="email" required>
+            </div>
+            <div class="col-12">
+                <label for="subject" class="form-label">Subject</label>
+                <select class="form-select transparent-input" id="subject" name="subject">
+                    <option value="">Choose a subject...</option>
+                    <option value="general">General Inquiry</option>
+                    <option value="event-hosting">Event Hosting</option>
+                    <option value="technical-support">Technical Support</option>
+                    <option value="partnership">Partnership Opportunity</option>
+                    <option value="feedback">Feedback</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            <div class="col-12">
+                <label for="message" class="form-label">Message *</label>
+                <textarea class="form-control transparent-input" id="message" name="message" rows="6" placeholder="Tell us how we can help you..." required></textarea>
+            </div>
+            <div class="col-12 text-center">
+                <button type="submit" class="btn btn-primary btn-lg px-5">
+                    <i class="fas fa-paper-plane me-2"></i>Send Message
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+        
+
+
+    </main>
+    
+    <%- include('partials/footer') %>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script>
+        // Enhanced form validation
+        document.getElementById('contact-form').addEventListener('submit', function(e) {
+            const form = this;
+            const name = form.querySelector('#name').value.trim();
+            const email = form.querySelector('#email').value.trim();
+            const message = form.querySelector('#message').value.trim();
+            
+            // Reset previous validation states
+            form.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
+            
+            let isValid = true;
+            
+            if (!name) {
+                form.querySelector('#name').classList.add('is-invalid');
+                isValid = false;
+            }
+            
+            if (!email || !email.includes('@')) {
+                form.querySelector('#email').classList.add('is-invalid');
+                isValid = false;
+            }
+            
+            if (!message) {
+                form.querySelector('#message').classList.add('is-invalid');
+                isValid = false;
+            }
+            
+            if (!isValid) {
+                e.preventDefault();
+                showAlert('Please fill in all required fields correctly.', 'danger');
+            } else {
+                // Add loading state
+                const submitBtn = form.querySelector('button[type="submit"]');
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Sending...';
+                submitBtn.disabled = true;
+            }
+        });
+    </script>
+</body>
+</html>

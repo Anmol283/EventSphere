@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redis Verification - Event Sphere</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 50px 0;
+        }
+        .test-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            margin-bottom: 2rem;
+        }
+        .status-badge {
+            font-size: 1.2rem;
+            padding: 10px 20px;
+        }
+        .redis-icon {
+            font-size: 4rem;
+            color: #DC382D;
+            margin-bottom: 1rem;
+        }
+        .info-box {
+            background: #f8f9fa;
+            border-left: 4px solid #28a745;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="test-card text-center">
+                    <i class="fas fa-database redis-icon"></i>
+                    <h1 class="mb-3">Redis Connection Test</h1>
+                    <p class="text-muted mb-4">Verify your Redis Cloud integration</p>
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <span class="badge bg-success status-badge">
+                                <i class="fas fa-check-circle me-2"></i>Redis Connected
+                            </span>
+                        </div>
+                        <div class="col-md-6">
+                            <span class="badge bg-info status-badge">
+                                <i class="fas fa-server me-2"></i>Session Active
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="info-box text-start">
+                        <h5><i class="fas fa-chart-line me-2"></i>Session Information</h5>
+                        <p class="mb-1"><strong>Session ID:</strong> <code><%= sessionID %></code></p>
+                        <p class="mb-1"><strong>Page Views:</strong> <span class="badge bg-primary"><%= views %></span></p>
+                        <p class="mb-0"><strong>Storage:</strong> Redis Cloud</p>
+                    </div>
+
+                    <div class="info-box text-start">
+                        <h5><i class="fas fa-info-circle me-2"></i>How It Works</h5>
+                        <ul class="mb-0">
+                            <li>Your session is stored in <strong>Redis Cloud</strong>, not in server memory</li>
+                            <li>Each page refresh increments the view counter</li>
+                            <li>Session persists even if server restarts</li>
+                            <li>Events are cached for faster loading</li>
+                        </ul>
+                    </div>
+
+                    <div class="mt-4">
+                        <button onclick="window.location.reload()" class="btn btn-primary btn-lg me-2">
+                            <i class="fas fa-sync-alt me-2"></i>Refresh & Test Again
+                        </button>
+                        <a href="/" class="btn btn-outline-secondary btn-lg">
+                            <i class="fas fa-home me-2"></i>Back to Home
+                        </a>
+                    </div>
+                </div>
+
+                <div class="test-card">
+                    <h4 class="mb-3"><i class="fas fa-terminal me-2"></i>Console Output You Should See</h4>
+                    <div class="bg-dark text-light p-3 rounded" style="font-family: monospace; text-align: left;">
+                        <div class="mb-2">✅ Connected to Redis Cloud</div>
+                        <div class="mb-2">✅ Redis is ready for use</div>
+                        <div class="mb-2">✅ Session middleware configured with Redis</div>
+                        <div class="mb-2 text-warning">⚡ Cache MISS for "events:featured" | Hit Rate: 0.00%</div>
+                        <div class="text-success">✅ Cache HIT for "events:featured" | Hit Rate: 100.00%</div>
+                    </div>
+                </div>
+
+                <div class="test-card">
+                    <h4 class="mb-3"><i class="fas fa-exclamation-triangle me-2"></i>About Browser Warnings</h4>
+                    <div class="alert alert-info mb-0">
+                        <strong>Note:</strong> Browser console warnings like "Tracking Prevention" and "favicon.ico 404" are <strong>normal and harmless</strong>. They don't affect Redis functionality. Redis logs appear in your <strong>PowerShell/Terminal</strong> console where you started the server.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

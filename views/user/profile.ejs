@@ -1,0 +1,13 @@
+<%- include('../partials/header') %>
+<div class="container mt-5">
+  <h2>My Profile</h2>
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Welcome, <%= user.name %></h5>
+      <p class="card-text">Email: <%= user.email %></p>
+      <p class="card-text">Member since: <%= user.createdAt.toLocaleDateString() %></p>
+    </div>
+  </div>
+  <a href="/logout" class="btn btn-danger mt-3">Logout</a>
+</div>
+<%- include('../partials/footer') %>

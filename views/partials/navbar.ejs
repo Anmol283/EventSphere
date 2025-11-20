@@ -1,0 +1,76 @@
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top shadow-sm" 
+     style="background: linear-gradient(135deg, #001F54, #003566, #004B8D);">
+  <div class="container">
+    <!-- Brand -->
+    <a class="navbar-brand fw-bold d-flex align-items-center" href="/" style="color: #EAF4FF;">
+      <i class="fas fa-calendar-alt me-2 text-info"></i>
+      <span class="fs-4">Event Sphere</span>
+    </a>
+
+    <!-- Toggler -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Links -->
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item mx-1">
+          <a class="nav-link px-3 rounded-pill" href="/" style="transition: 0.3s;">Home</a>
+        </li>
+        <li class="nav-item mx-1">
+          <a class="nav-link px-3 rounded-pill" href="/about" style="transition: 0.3s;">About</a>
+        </li>
+        <li class="nav-item mx-1">
+          <a class="nav-link px-3 rounded-pill" href="/events" style="transition: 0.3s;">Events</a>
+        </li>
+        <li class="nav-item mx-1">
+          <a class="nav-link px-3 rounded-pill" href="/contact" style="transition: 0.3s;">Contact</a>
+        </li>
+        <li class="nav-item mx-1">
+          <a class="nav-link px-3 rounded-pill" href="/admin/login" style="transition: 0.3s;">Admin</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<style>
+  /* Navbar Styling Enhancements */
+  .navbar {
+    backdrop-filter: blur(6px);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .navbar-brand:hover {
+    color: #ffffff !important;
+    text-shadow: 0 0 8px rgba(173, 216, 230, 0.6);
+  }
+
+  .nav-link {
+    color: #EAEAEA !important;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+  }
+
+  .nav-link:hover,
+  .nav-link.active {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: #ffffff !important;
+  }
+
+  .navbar-toggler {
+    border: none;
+    outline: none;
+  }
+
+  .navbar-toggler:focus {
+    box-shadow: none;
+  }
+
+  /* Optional: smooth entry effect */
+  .navbar {
+    transition: all 0.4s ease;
+  }
+</style>
