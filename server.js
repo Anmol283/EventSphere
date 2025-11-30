@@ -383,42 +383,90 @@ async function startServer() {
 
     // 2. POST /admin/login - Handle Login Submission (Session-based)
     app.post("/admin/login", async (req, res) => {
-      try {
-        const { username, password } = req.body;
+  try {
+    const { username, password } = req.body;
 
-        // Find admin in DB
-        const admin = await db.collection('admins').findOne({ username: username });
+    console.log("🔍 LOGIN ATTEMPT - Username:", username); // DEBUG
+    console.log("🔍 LOGIN ATTEMPT - Password:", password); // DEBUG
 
-        // NOTE: Ensure 'bcryptjs' is installed (npm install bcryptjs) and required at the top of server.js
-        const bcrypt = require('bcryptjs');
-        let passwordMatches = false;
+    const admin = await db.collection('admins').findOne({ username: username });
 
-        if (admin && admin.password) {
-          // Check for hashed password format
-          if (admin.password.startsWith('$2')) {
-            passwordMatches = await bcrypt.compare(password, admin.password);
-          } else {
-            // Fallback for non-hashed (simple) password
-            passwordMatches = admin.password === password;
-          }
-        }
+    console.log("📋 Admin found:", admin ? "YES" : "NO"); // DEBUG
+    if (admin) {
+      console.log("🔑 Admin ID:", admin._id); // DEBUG
+      console.log("🔑 Password in DB:", admin.password); // DEBUG
+      console.log("🔑 Password starts with $2:", admin.password.startsWith('$2')); // DEBUG
+    }
 
-        if (admin && passwordMatches) {
-          req.session.isAdmin = true;
-          req.session.adminId = admin._id.toString();
-          req.session.adminUsername = admin.username;
-          req.session.success = "Logged in successfully!";
-          res.redirect("/admin");
-        } else {
-          req.session.error = "Invalid username or password.";
-          res.redirect("/admin/login");
-        }
-      } catch (error) {
-        console.error("Login error:", error);
-        req.session.error = "An error occurred during login.";
-        res.redirect("/admin/login");
+    const bcrypt = require('bcryptjs');
+    let passwordMatches = false;
+
+    if (admin && admin.password) {
+      if (admin.password.startsWith('$2')) {
+        passwordMatches = await bcrypt.compare(password, admin.password);
+        console.log("✅ Bcrypt compare result:", passwordMatches); // DEBUG
+      } else {
+        passwordMatches = admin.password === password;
+        console.log("✅ Plain text compare result:", passwordMatches); // DEBUG
       }
-    });
+    }
+
+    console.log("🎯 Final password match:", passwordMatches); // DEBUG
+
+    if (admin && passwordMatches) {
+      req.session.isAdmin = true;
+      req.session.adminId = admin._id.toString();
+      req.session.adminUsername = admin.username;
+      req.session.success = "Logged in successfully!";
+      res.redirect("/admin");
+    } else {
+      console.log("❌ Login failed - returning Unauthorized"); // DEBUG
+      req.session.error = "Invalid username or password.";
+      res.redirect("/admin/login");
+    }
+  } catch (error) {
+    console.error("💥 Login error:", error);
+    req.session.error = "An error occurred during login.";
+    res.redirect("/admin/login");
+  }
+});
+    // app.post("/admin/login", async (req, res) => {
+    //   try {
+    //     const { username, password } = req.body;
+
+    //     // Find admin in DB
+    //     const admin = await db.collection('admins').findOne({ username: username });
+
+    //     // NOTE: Ensure 'bcryptjs' is installed (npm install bcryptjs) and required at the top of server.js
+    //     const bcrypt = require('bcryptjs');
+    //     let passwordMatches = false;
+
+    //     if (admin && admin.password) {
+    //       // Check for hashed password format
+    //       if (admin.password.startsWith('$2')) {
+    //         passwordMatches = await bcrypt.compare(password, admin.password);
+    //       } else {
+    //         // Fallback for non-hashed (simple) password
+    //         passwordMatches = admin.password === password;
+    //       }
+    //     }
+
+    //     if (admin && passwordMatches) {
+    //       req.session.isAdmin = true;
+    //       req.session.adminId = admin._id.toString();
+    //       req.session.adminUsername = admin.username;
+    //       req.session.success = "Logged in successfully!";
+    //       res.redirect("/admin");
+    //     } else {
+    //       req.session.error = "Invalid username or password.";
+    //       res.redirect("/admin/login");
+    //     }
+    //   } catch (error) {
+    //     console.error("Login error:", error);
+    //     req.session.error = "An error occurred during login.";
+    //     res.redirect("/admin/login");
+    //   }
+    // });
 
     // 3. GET /admin - Admin Dashboard (Requires Authentication)
     // 3. GET /admin - Admin Dashboard (Requires Authentication)
