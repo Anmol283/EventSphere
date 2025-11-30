@@ -577,10 +577,12 @@ async function startServer() {
     // 7️⃣ Start server 🔄 Listen on the HTTP/HTTPS server instance
     const protocolName = serverOptions ? 'https' : 'http';
 
-    httpServer.listen(PORT, () => {
-      console.log(`\n🌐 Event Sphere server running at ${protocolName}://localhost:${PORT}`);
-      console.log(`📍 Test session at: ${protocolName}://localhost:${PORT}/test-session\n`);
-    });
+    httpServer.listen(PORT, '0.0.0.0', () => {
+  const isProduction = process.env.NODE_ENV === 'production';
+  const baseUrl = isProduction ? process.env.BASE_URL || 'https://eventsphere-anmol.onrender.com' : `${protocolName}://localhost:${PORT}`;
+  console.log(`\n🌐 Event Sphere server running at ${baseUrl}`);
+  console.log(`📍 Test session at: ${baseUrl}/test-session\n`);
+});
   } catch (error) {
     console.error("🚨 Startup error:", error);
     console.error("Stack trace:", error.stack);
