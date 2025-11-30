@@ -12,8 +12,8 @@ const CONFIG = {
     BASE_URL: 'http://localhost:3000',
     ADMIN_LOGIN_URL: 'http://localhost:3000/admin/login',
     // Update these to the admin credentials you want to test
-    ADMIN_USERNAME: 'anshu',
-    ADMIN_PASSWORD: 'anshu123',
+    ADMIN_USERNAME: 'Anmol',
+    ADMIN_PASSWORD: 'Anmol123',
     HEADLESS: false,
     SLOW_MO: 50
 };
