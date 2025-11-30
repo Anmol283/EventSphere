@@ -1,9 +1,27 @@
 TN:
 SF:public\js\adminDashboard.js
 FN:1,(anonymous_0)
+<<<<<<< HEAD
 FNF:1
 FNH:1
 FNDA:6,(anonymous_0)
+=======
+FN:22,saveToken
+FN:27,getToken
+FN:31,clearToken
+FN:36,authFetch
+FN:49,apiLogin
+FN:70,apiLogout
+FNF:7
+FNH:1
+FNDA:6,(anonymous_0)
+FNDA:0,saveToken
+FNDA:0,getToken
+FNDA:0,clearToken
+FNDA:0,authFetch
+FNDA:0,apiLogin
+FNDA:0,apiLogout
+>>>>>>> main
 DA:1,1
 DA:3,6
 DA:4,6
@@ -13,12 +31,58 @@ DA:12,6
 DA:13,6
 DA:17,6
 DA:18,6
+<<<<<<< HEAD
 LF:9
 LH:9
+=======
+DA:23,0
+DA:24,0
+DA:28,0
+DA:32,0
+DA:37,0
+DA:38,0
+DA:40,0
+DA:41,0
+DA:44,0
+DA:45,0
+DA:50,0
+DA:51,0
+DA:58,0
+DA:59,0
+DA:60,0
+DA:61,0
+DA:64,0
+DA:66,0
+DA:71,0
+DA:72,0
+DA:76,1
+DA:77,1
+DA:78,1
+DA:79,1
+LF:33
+LH:13
+>>>>>>> main
 BRDA:3,0,0,6
 BRDA:3,0,1,4
 BRDA:12,1,0,6
 BRDA:12,1,1,4
+<<<<<<< HEAD
 BRF:4
+=======
+BRDA:23,2,0,0
+BRDA:23,2,1,0
+BRDA:36,3,0,0
+BRDA:38,4,0,0
+BRDA:38,4,1,0
+BRDA:40,5,0,0
+BRDA:40,5,1,0
+BRDA:59,6,0,0
+BRDA:59,6,1,0
+BRDA:59,7,0,0
+BRDA:59,7,1,0
+BRDA:64,8,0,0
+BRDA:64,8,1,0
+BRF:17
+>>>>>>> main
 BRH:4
 end_of_record

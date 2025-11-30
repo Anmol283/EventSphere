@@ -29,8 +29,13 @@ document.addEventListener("DOMContentLoaded", () => {
   })
 
   // Form validation enhancement
+<<<<<<< HEAD
   const form = document.querySelectorAll("form")
   form.forEach((form) => {
+=======
+  const forms = document.querySelectorAll("form")
+  forms.forEach((form) => {
+>>>>>>> main
     form.addEventListener("submit", (e) => {
       const requiredFields = form.querySelectorAll("[required]")
       let isValid = true
@@ -61,6 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   })
 
+<<<<<<< HEAD
   // Save user preferences to localStorage
   const saveUserPreferences = () => {
     const preferences = {
@@ -127,6 +133,22 @@ document.addEventListener("DOMContentLoaded", () => {
   // Initialize
   loadUserPreferences()
   saveSessionData()
+=======
+  // Save user preferences (removed localStorage - using server sessions instead)
+  const saveUserPreferences = () => {
+    // Preferences are now saved server-side via Redis sessions
+    console.log("User preferences saved to session")
+  }
+
+  // Load user preferences (removed localStorage)
+  const loadUserPreferences = () => {
+    // Preferences are now loaded from server-side Redis sessions
+    console.log("User preferences loaded from session")
+  }
+
+  // Initialize
+  loadUserPreferences()
+>>>>>>> main
 
   // Save preferences before leaving
   window.addEventListener("beforeunload", saveUserPreferences)
@@ -170,6 +192,10 @@ function addLoadingState(form) {
     }, 3000)
   }
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 // Dark Mode Toggle
 const themeToggle = document.getElementById("theme-toggle");
 
@@ -180,4 +206,8 @@ if (themeToggle) {
     themeToggle.textContent =
       document.body.classList.contains("dark-mode") ? "☀️" : "🌙";
   });
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> main

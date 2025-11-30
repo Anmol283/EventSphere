@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<<<<<<< HEAD
 <coverage generated="1762149054060" clover="3.2.0">
   <project timestamp="1762149054061" name="All files">
     <metrics statements="9" coveredstatements="9" conditionals="4" coveredconditionals="4" methods="1" coveredmethods="1" elements="14" coveredelements="14" complexity="0" loc="9" ncloc="9" packages="1" files="1" classes="1"/>
     <file name="adminDashboard.js" path="C:\Users\Dell\Downloads\EventSphere\public\js\adminDashboard.js">
       <metrics statements="9" coveredstatements="9" conditionals="4" coveredconditionals="4" methods="1" coveredmethods="1"/>
+=======
+<coverage generated="1763373953576" clover="3.2.0">
+  <project timestamp="1763373953576" name="All files">
+    <metrics statements="33" coveredstatements="13" conditionals="17" coveredconditionals="4" methods="7" coveredmethods="1" elements="57" coveredelements="18" complexity="0" loc="33" ncloc="33" packages="1" files="1" classes="1"/>
+    <file name="adminDashboard.js" path="C:\Users\lavis\Desktop\event\EventSphere\public\js\adminDashboard.js">
+      <metrics statements="33" coveredstatements="13" conditionals="17" coveredconditionals="4" methods="7" coveredmethods="1"/>
+>>>>>>> main
       <line num="1" count="1" type="stmt"/>
       <line num="3" count="6" type="cond" truecount="2" falsecount="0"/>
       <line num="4" count="6" type="stmt"/>
@@ -13,6 +21,33 @@
       <line num="13" count="6" type="stmt"/>
       <line num="17" count="6" type="stmt"/>
       <line num="18" count="6" type="stmt"/>
+<<<<<<< HEAD
+=======
+      <line num="23" count="0" type="cond" truecount="0" falsecount="2"/>
+      <line num="24" count="0" type="stmt"/>
+      <line num="28" count="0" type="stmt"/>
+      <line num="32" count="0" type="stmt"/>
+      <line num="37" count="0" type="stmt"/>
+      <line num="38" count="0" type="cond" truecount="0" falsecount="2"/>
+      <line num="40" count="0" type="cond" truecount="0" falsecount="2"/>
+      <line num="41" count="0" type="stmt"/>
+      <line num="44" count="0" type="stmt"/>
+      <line num="45" count="0" type="stmt"/>
+      <line num="50" count="0" type="stmt"/>
+      <line num="51" count="0" type="stmt"/>
+      <line num="58" count="0" type="stmt"/>
+      <line num="59" count="0" type="cond" truecount="0" falsecount="4"/>
+      <line num="60" count="0" type="stmt"/>
+      <line num="61" count="0" type="stmt"/>
+      <line num="64" count="0" type="cond" truecount="0" falsecount="2"/>
+      <line num="66" count="0" type="stmt"/>
+      <line num="71" count="0" type="stmt"/>
+      <line num="72" count="0" type="stmt"/>
+      <line num="76" count="1" type="stmt"/>
+      <line num="77" count="1" type="stmt"/>
+      <line num="78" count="1" type="stmt"/>
+      <line num="79" count="1" type="stmt"/>
+>>>>>>> main
     </file>
   </project>
 </coverage>

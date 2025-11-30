@@ -125,6 +125,11 @@ EventSphere/
 - Password hashing with bcrypt
 - Protected API routes
 
+<<<<<<< HEAD
+=======
+- Optional JWT authentication for API clients: obtain a Bearer token from `/api/auth/login` (returns `token`) and send it in the `Authorization: Bearer <token>` header to access protected API/admin endpoints.
+
+>>>>>>> main
 ---
 
 ## 🤝 Contributing

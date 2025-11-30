@@ -1,10 +1,17 @@
 {
   "dependencies": {
+<<<<<<< HEAD
     "bcryptjs": "^3.0.2",
+=======
+    "bcryptjs": "^3.0.3",
+    "body-parser": "^2.2.0",
+    "connect-redis": "^7.1.1",
+>>>>>>> main
     "dotenv": "^17.2.3",
     "ejs": "^3.1.10",
     "express": "^5.1.0",
     "express-session": "^1.18.2",
+<<<<<<< HEAD
     "method-override": "^3.0.0",
 <<<<<<< Updated upstream
     "mongodb": "^6.20.0"
@@ -13,17 +20,42 @@
     "puppeteer": "^24.29.1",
     "redis": "^5.9.0"
 >>>>>>> Stashed changes
+=======
+    "jsonwebtoken": "^9.0.2",
+    "method-override": "^3.0.0",
+    "mongodb": "^6.20.0",
+    "puppeteer": "^24.29.1",
+    "redis": "^5.9.0"
+  },
+  "optionalDependencies": {
+    "socket.io": "^4.8.1"
+>>>>>>> main
   },
   "devDependencies": {
     "@babel/preset-env": "^7.22.5",
     "@testing-library/jest-dom": "^5.16.5",
     "babel-jest": "^29.5.0",
+<<<<<<< HEAD
+=======
+    "cypress": "^15.7.0",
+>>>>>>> main
     "jest": "^29.5.0",
     "jest-environment-jsdom": "^29.5.0"
   },
   "scripts": {
+<<<<<<< HEAD
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage"
+=======
+    "start": "node server.js",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "test:admin": "node __test__/admin.test.js",
+    "test:with-server": "concurrently \"npm start\" \"npm run test:admin\""
+>>>>>>> main
   }
 }

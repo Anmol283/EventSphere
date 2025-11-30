@@ -122,6 +122,7 @@
     <%- include('../partials/navbar') %>
 
     <!-- Admin Header -->
+<<<<<<< HEAD
     <header class="admin-header">
         <div class="container">
             <div class="row align-items-center">
@@ -142,6 +143,36 @@
             </div>
         </div>
     </header>
+=======
+   <!-- FIND THIS SECTION IN YOUR dashboard.ejs (around line 60-75) -->
+<!-- Replace the header section with this updated version -->
+
+<header class="admin-header">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <h1 class="fw-bold mb-2">
+                    <i class="fas fa-tachometer-alt me-3"></i>Admin Dashboard
+                </h1>
+                <p class="mb-0 opacity-75">Manage events and monitor activity</p>
+            </div>
+            <div class="col-md-6 text-md-end mt-3 mt-md-0">
+                <!-- 🆕 NEW: Cache Stats Button -->
+                <a href="/admin/cache-stats" class="btn btn-info text-white me-2">
+                    <i class="fas fa-chart-line me-2"></i>Cache Stats
+                </a>
+                
+                <a href="/" class="btn btn-light me-2">
+                    <i class="fas fa-home me-2"></i>View Website
+                </a>
+                <a href="/admin/logout" class="btn btn-outline-light">
+                    <i class="fas fa-sign-out-alt me-2"></i>Logout
+                </a>
+            </div>
+        </div>
+    </div>
+</header>
+>>>>>>> main
 
     <main class="py-4">
         <div class="container">

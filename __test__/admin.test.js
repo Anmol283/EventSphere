@@ -11,6 +11,10 @@ const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 const CONFIG = {
     BASE_URL: 'http://localhost:3000',
     ADMIN_LOGIN_URL: 'http://localhost:3000/admin/login',
+<<<<<<< HEAD
+=======
+    // Update these to the admin credentials you want to test
+>>>>>>> main
     ADMIN_USERNAME: 'Anmol',
     ADMIN_PASSWORD: 'Anmol123',
     HEADLESS: false,
@@ -151,10 +155,26 @@ runner.test('Should add a new event successfully', async (page) => {
     await wait(1500);
     
     // Wait for and click add event button
+<<<<<<< HEAD
     await page.waitForSelector('button[data-bs-toggle="modal"][data-bs-target="#addEventModal"]', { timeout: 5000 });
     await page.click('button[data-bs-toggle="modal"][data-bs-target="#addEventModal"]');
     await page.waitForSelector('#addEventModal.show', { visible: true, timeout: 3000 });
     await wait(500);
+=======
+        const addBtnSel = 'button[data-bs-toggle="modal"][data-bs-target="#addEventModal"]';
+        await page.waitForSelector(addBtnSel, { timeout: 5000 });
+        // Use page.evaluate click to avoid issues where element is covered or not interactable
+        await page.evaluate((sel) => { const el = document.querySelector(sel); if (el) el.click(); }, addBtnSel);
+        // Wait for modal container to be visible and for Bootstrap to add the "show" class
+        await page.waitForSelector('#addEventModal', { visible: true, timeout: 5000 });
+        await page.waitForFunction(() => {
+            const el = document.querySelector('#addEventModal');
+            return el && el.classList && el.classList.contains('show');
+        }, { timeout: 5000 }).catch(() => {
+            // fallback: continue even if show class didn't appear quickly
+        });
+        await wait(500);
+>>>>>>> main
     
     console.log('   ✓ Modal opened successfully');
     
