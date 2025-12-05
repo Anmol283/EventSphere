@@ -8,7 +8,7 @@ const path = require("path");
 const { MongoClient, ObjectId } = require("mongodb");
 const http = require("http");
 // 🆕 ADDED: HTTPS module for secure serving
-const https = require("https"); 
+const https = require("https");
 const fs = require("fs"); // 🆕 ADDED: File system access to read PEM files
 const { Server: SocketIO } = require("socket.io");
 require("dotenv").config();
@@ -32,13 +32,13 @@ const certPath = path.join(__dirname, 'localhostcert.pem');
 
 // Only use HTTPS files if they exist (for local development)
 if (fs.existsSync(keyPath) && fs.existsSync(certPath)) {
-    serverOptions = {
-        key: fs.readFileSync(keyPath),
-        cert: fs.readFileSync(certPath)
-    };
-    console.log("✅ Localhost PEM certificates loaded for HTTPS.");
+  serverOptions = {
+    key: fs.readFileSync(keyPath),
+    cert: fs.readFileSync(certPath)
+  };
+  console.log("✅ Localhost PEM certificates loaded for HTTPS.");
 } else {
-    console.warn("⚠️ PEM files not found. Server will run on HTTP only. (Files needed: localhostkey.pem, localhostcert.pem)");
+  console.warn("⚠️ PEM files not found. Server will run on HTTP only. (Files needed: localhostkey.pem, localhostcert.pem)");
 }
 
 // 🆕 Create the appropriate server instance
@@ -101,11 +101,12 @@ async function startServer() {
         resave: false,
         saveUninitialized: false,
         cookie: {
-          // 🆕 IMPORTANT: Set secure to true when running HTTPS locally, or conditionally based on environment
-          secure: !!serverOptions || process.env.NODE_ENV === 'production', 
+          secure: process.env.NODE_ENV === 'production',
           httpOnly: true,
           maxAge: 24 * 60 * 60 * 1000,
+          sameSite: 'lax'
         },
+        proxy: true
       })
     );
 
@@ -137,7 +138,7 @@ async function startServer() {
     // 6️⃣ Initialize Socket.IO Server 🆕
     // Use the appropriate protocol (https or http) in the origin
     const baseProtocol = serverOptions ? 'https' : 'http';
-    
+
     io = new SocketIO(httpServer, {
       cors: {
         // Allows the client to connect from the same origin
@@ -383,53 +384,53 @@ async function startServer() {
 
     // 2. POST /admin/login - Handle Login Submission (Session-based)
     app.post("/admin/login", async (req, res) => {
-  try {
-    const { username, password } = req.body;
+      try {
+        const { username, password } = req.body;
 
-    console.log("🔍 LOGIN ATTEMPT - Username:", username); // DEBUG
-    console.log("🔍 LOGIN ATTEMPT - Password:", password); // DEBUG
+        console.log("🔍 LOGIN ATTEMPT - Username:", username); // DEBUG
+        console.log("🔍 LOGIN ATTEMPT - Password:", password); // DEBUG
 
-    const admin = await db.collection('admins').findOne({ username: username });
+        const admin = await db.collection('admins').findOne({ username: username });
 
-    console.log("📋 Admin found:", admin ? "YES" : "NO"); // DEBUG
-    if (admin) {
-      console.log("🔑 Admin ID:", admin._id); // DEBUG
-      console.log("🔑 Password in DB:", admin.password); // DEBUG
-      console.log("🔑 Password starts with $2:", admin.password.startsWith('$2')); // DEBUG
-    }
+        console.log("📋 Admin found:", admin ? "YES" : "NO"); // DEBUG
+        if (admin) {
+          console.log("🔑 Admin ID:", admin._id); // DEBUG
+          console.log("🔑 Password in DB:", admin.password); // DEBUG
+          console.log("🔑 Password starts with $2:", admin.password.startsWith('$2')); // DEBUG
+        }
 
-    const bcrypt = require('bcryptjs');
-    let passwordMatches = false;
+        const bcrypt = require('bcryptjs');
+        let passwordMatches = false;
 
-    if (admin && admin.password) {
-      if (admin.password.startsWith('$2')) {
-        passwordMatches = await bcrypt.compare(password, admin.password);
-        console.log("✅ Bcrypt compare result:", passwordMatches); // DEBUG
-      } else {
-        passwordMatches = admin.password === password;
-        console.log("✅ Plain text compare result:", passwordMatches); // DEBUG
+        if (admin && admin.password) {
+          if (admin.password.startsWith('$2')) {
+            passwordMatches = await bcrypt.compare(password, admin.password);
+            console.log("✅ Bcrypt compare result:", passwordMatches); // DEBUG
+          } else {
+            passwordMatches = admin.password === password;
+            console.log("✅ Plain text compare result:", passwordMatches); // DEBUG
+          }
+        }
+
+        console.log("🎯 Final password match:", passwordMatches); // DEBUG
+
+        if (admin && passwordMatches) {
+          req.session.isAdmin = true;
+          req.session.adminId = admin._id.toString();
+          req.session.adminUsername = admin.username;
+          req.session.success = "Logged in successfully!";
+          res.redirect("/admin");
+        } else {
+          console.log("❌ Login failed - returning Unauthorized"); // DEBUG
+          req.session.error = "Invalid username or password.";
+          res.redirect("/admin/login");
+        }
+      } catch (error) {
+        console.error("💥 Login error:", error);
+        req.session.error = "An error occurred during login.";
+        res.redirect("/admin/login");
       }
-    }
-
-    console.log("🎯 Final password match:", passwordMatches); // DEBUG
-
-    if (admin && passwordMatches) {
-      req.session.isAdmin = true;
-      req.session.adminId = admin._id.toString();
-      req.session.adminUsername = admin.username;
-      req.session.success = "Logged in successfully!";
-      res.redirect("/admin");
-    } else {
-      console.log("❌ Login failed - returning Unauthorized"); // DEBUG
-      req.session.error = "Invalid username or password.";
-      res.redirect("/admin/login");
-    }
-  } catch (error) {
-    console.error("💥 Login error:", error);
-    req.session.error = "An error occurred during login.";
-    res.redirect("/admin/login");
-  }
-});
+    });
     // app.post("/admin/login", async (req, res) => {
     //   try {
     //     const { username, password } = req.body;
@@ -614,64 +615,64 @@ async function startServer() {
 
     // ... remaining routes and handlers ...
     // ===============================
-app.get("/admin/cache-stats", async (req, res) => {
-  try {
-    if (!req.session.isAdmin) {
-      return res.redirect("/admin/login");
-    }
+    app.get("/admin/cache-stats", async (req, res) => {
+      try {
+        if (!req.session.isAdmin) {
+          return res.redirect("/admin/login");
+        }
 
-    // Get Redis info
-    const redisInfoRaw = await redisClient.info();
-    const redisKeys = await redisClient.dbSize();
+        // Get Redis info
+        const redisInfoRaw = await redisClient.info();
+        const redisKeys = await redisClient.dbSize();
 
-    // Format raw Redis INFO into an object
-    const redisInfo = {};
-    redisInfoRaw.split("\n").forEach(line => {
-      if (line.includes(":")) {
-        const [key, value] = line.split(":");
-        redisInfo[key.trim()] = value.trim();
+        // Format raw Redis INFO into an object
+        const redisInfo = {};
+        redisInfoRaw.split("\n").forEach(line => {
+          if (line.includes(":")) {
+            const [key, value] = line.split(":");
+            redisInfo[key.trim()] = value.trim();
+          }
+        });
+
+        // Get all keys and filter by pattern
+        const allKeys = await redisClient.keys('*');
+        const eventKeys = allKeys.filter(key => key.startsWith('events:'));
+        const sessionKeys = allKeys.filter(key => key.startsWith('sess:'));
+        const otherKeys = allKeys.filter(key => !key.startsWith('events:') && !key.startsWith('sess:'));
+
+        // Calculate hit rate
+        const hits = parseInt(redisInfo.keyspace_hits) || 0;
+        const misses = parseInt(redisInfo.keyspace_misses) || 0;
+        const total = hits + misses;
+        const hitRate = total > 0 ? ((hits / total) * 100).toFixed(2) : 0;
+
+        // Build stats object from Redis info
+        const stats = {
+          totalRequests: redisInfo.total_commands_processed || 0,
+          connectedClients: redisInfo.connected_clients || 0,
+          totalConnections: redisInfo.total_connections_received || 0,
+          usedMemoryHuman: redisInfo.used_memory_human || "0MB",
+          hits: hits,
+          misses: misses
+        };
+
+        res.render("admin/cache-stats", {
+          title: "Cache Statistics - Admin Panel",
+          redisInfo,
+          redisKeys,
+          stats,
+          hitRate,
+          totalKeys: redisKeys,
+          eventKeys,
+          sessionKeys,
+          otherKeys        // ← ADD THIS!
+        });
+
+      } catch (err) {
+        console.error("❌ Error loading cache stats:", err);
+        res.status(500).send("Error loading cache stats");
       }
     });
-
-    // Get all keys and filter by pattern
-    const allKeys = await redisClient.keys('*');
-    const eventKeys = allKeys.filter(key => key.startsWith('events:'));
-    const sessionKeys = allKeys.filter(key => key.startsWith('sess:'));
-    const otherKeys = allKeys.filter(key => !key.startsWith('events:') && !key.startsWith('sess:'));
-
-    // Calculate hit rate
-    const hits = parseInt(redisInfo.keyspace_hits) || 0;
-    const misses = parseInt(redisInfo.keyspace_misses) || 0;
-    const total = hits + misses;
-    const hitRate = total > 0 ? ((hits / total) * 100).toFixed(2) : 0;
-
-    // Build stats object from Redis info
-    const stats = {
-      totalRequests: redisInfo.total_commands_processed || 0,
-      connectedClients: redisInfo.connected_clients || 0,
-      totalConnections: redisInfo.total_connections_received || 0,
-      usedMemoryHuman: redisInfo.used_memory_human || "0MB",
-      hits: hits,
-      misses: misses
-    };
-
-    res.render("admin/cache-stats", {
-      title: "Cache Statistics - Admin Panel",
-      redisInfo,
-      redisKeys,
-      stats,
-      hitRate,
-      totalKeys: redisKeys,
-      eventKeys,
-      sessionKeys,
-      otherKeys        // ← ADD THIS!
-    });
-
-  } catch (err) {
-    console.error("❌ Error loading cache stats:", err);
-    res.status(500).send("Error loading cache stats");
-  }
-});
 
 
     // 404 HANDLER
@@ -685,12 +686,12 @@ app.get("/admin/cache-stats", async (req, res) => {
     // 🔄 FIXED: Listen on 0.0.0.0 to accept external connections
     const protocolName = serverOptions ? 'https' : 'http';
     const isProduction = process.env.NODE_ENV === 'production';
-    
+
     httpServer.listen(PORT, '0.0.0.0', () => {
-      const baseUrl = isProduction 
-        ? (process.env.BASE_URL || 'https://eventsphere-anmol.onrender.com') 
+      const baseUrl = isProduction
+        ? (process.env.BASE_URL || 'https://eventsphere-anmol.onrender.com')
         : `${protocolName}://localhost:${PORT}`;
-      
+
       console.log(`\n🌐 Event Sphere server running at ${baseUrl}`);
       console.log(`📍 Test session at: ${baseUrl}/test-session\n`);
     });
